@@ -1,0 +1,11 @@
+@import 'shuffling';
+@import 'cards';
+@import 'deck';
+
+#hand1 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: center;
+  width:100%;
+}

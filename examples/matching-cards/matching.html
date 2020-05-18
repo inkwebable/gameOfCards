@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+    <title>Game Of Cards</title>
+    <link rel="stylesheet" href="../../dist/styles/main.css" />
+    <script src="../../dist/gameOfCards.js"></script>
+</head>
+<body>
+<main>
+    <div id="js-deck" />
+    <div id="players">
+        <div id="hand1"></div>
+        <div id="hand2"></div>
+    </div>
+</main>
+<script>
+  // let game = new gameOfCards.Game()
+  console.log('test', GameOfCards);
+
+  let game = new GameOfCards.Game({
+    name: 'Matching Cards',
+  });
+
+  const deck1 = game.createStandardDeck(1, 'matching-pears', 'js-deck', {
+    imagePath: 'images/cards/'
+  });
+
+  console.log('game', game);
+
+  // can pass deck ids to each of these methods
+  game.shuffleDeckCards().makeDomMarkUp().addDeckToDom();
+  game.assignCardDomToCardObj();
+</script>
+</body>
+</html>
