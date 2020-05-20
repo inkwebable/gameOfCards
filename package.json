@@ -1,6 +1,6 @@
 {
-  "name": "gameofcards",
-  "version": "1.0.2",
+  "name": "game-of-cards",
+  "version": "0.0.1",
   "description": "",
   "private": true,
   "main": "dist/gameOfCards.js",
@@ -26,7 +26,7 @@
   "bugs": {
     "url": "https://github.com/inkwebable/gameOfCards/issues"
   },
-  "homepage": "https://github.com/inkwebable/gameOfCards#readme",
+  "homepage": "https://github.com/inkwebable/gameOfCards",
   "dependencies": {
     "fs-extra": "^9.0.0",
     "mini-css-extract-plugin": "^0.9.0",
