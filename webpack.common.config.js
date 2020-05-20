@@ -9,7 +9,7 @@ module.exports = {
   },
   plugins: [
     new CopyPlugin([
-      { from: './src/assets/images/cards/', to: path.resolve(__dirname, 'dist/images/cards/'), },
+      { from: './src/assets/images/game-of-cards/', to: path.resolve(__dirname, 'dist/images/game-of-cards/'), },
       // { from: 'other', to: 'public' },
     ]),
   ],

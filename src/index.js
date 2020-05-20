@@ -1,9 +1,7 @@
 import styles from './assets/styles/style.scss';
-import Game from './Game/Game';
-import Deck from './Deck/Deck';
+import { Deck } from './Deck';
+import { Game } from './Game';
 import * as Actions from './helpers/utils';
-
-console.log('styles', styles);
 
 // const GameOfCards = {
 //   Game,
@@ -12,4 +10,3 @@ console.log('styles', styles);
 // }
 
 export { Game, Deck, Actions };
-// export { Game, Deck };

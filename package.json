@@ -11,7 +11,8 @@
     "dev": "webpack-dev-server --open --config webpack.dev.config.js",
     "watch": "webpack --watch",
     "build": "webpack --config webpack.prod.config.js",
-    "postinstall": "node setup.sh"
+    "postinstall": "node setup.sh",
+    "doc": "node .\\node_modules\\jsdoc\\jsdoc.js -d docs --configure jsconf.json -r src"
   },
   "repository": {
     "type": "git",
@@ -40,6 +41,7 @@
     "css-loader": "^3.5.3",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",
+    "jsdoc": "^3.6.4",
     "style-loader": "^1.2.1",
     "url-loader": "^4.1.0",
     "webpack-dev-server": "^3.10.3",

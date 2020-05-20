@@ -1,12 +1,20 @@
 import DefaultPlayer from "./DefaultPlayer";
+import AiPlayer from './AiPlayer';
 
-class PlayerFactory {
+/**
+ * Player Factory
+ * @class
+ */
+export default class PlayerFactory {
   constructor() {
     this.playerClass = DefaultPlayer;
   }
 
   createPlayer(type, props) {
     switch (type) {
+      case 'ai':
+        this.playerClass = AiPlayer
+        break;
       default:
         this.playerClass = DefaultPlayer;
     }
@@ -15,5 +23,3 @@ class PlayerFactory {
   };
 
 }
-
-export default PlayerFactory;

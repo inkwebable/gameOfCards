@@ -1,10 +1,15 @@
+/**
+ * @class
+ * Generate a Card
+ */
 class Card {
   constructor(options) {
     const defaultOptions = {
       name: '',
+      value: 0,
       suit: '',
       image: '',
-      imageDefault: 'default-front',
+      imageDefault: 'front',
       cardColor: '',
       visible: false,
       allowFlip: true,
@@ -18,12 +23,17 @@ class Card {
       faceDown: true,
       currentEvent: null,
       events: {
-        click: () => {},
-        transitionend: () => {},
+        click: () => {
+        },
+        transitionend: () => {
+        },
       },
-      onClick: (evt) => {},
-      onCardFaceUp: () => {},
-      onCardFaceDown: () => {},
+      onClick: (evt) => {
+      },
+      onCardFaceUp: () => {
+      },
+      onCardFaceDown: () => {
+      },
     };
 
     let newOptions = Object.assign({}, defaultOptions, options);
@@ -37,13 +47,14 @@ class Card {
     });
 
     this.name = newOptions.name || '';
+    this.value = newOptions.value || 0;
     this.suit = newOptions.suit || '';
     this.image = newOptions.image || '';
     this.imageDefault = newOptions.imageDefault;
     this.cardColor = newOptions.cardColor || '';
     this.visible = newOptions.visible || false;
     this.allowFlip = newOptions.allowFlip || true;
-    this.clickable = newOptions.clickable ||true;
+    this.clickable = newOptions.clickable || true;
     this.movable = newOptions.movable || true;
     this.moving = newOptions.moving || false;
     this.droppable = newOptions.droppable || false;
@@ -53,9 +64,12 @@ class Card {
     this.faceDown = newOptions.faceDown || true;
     this.currentEvent = newOptions.currentEvent || null;
     this.events = newOptions.events || {};
-    this.onClick = newOptions.onClick || ((evt) => {});
-    this.onCardFaceUp = newOptions.onCardFaceUp || ((evt) => {});
-    this.onCardFaceDown = newOptions.onCardFaceDown || ((evt) => {});
+    this.onClick = newOptions.onClick || ((evt) => {
+    });
+    this.onCardFaceUp = newOptions.onCardFaceUp || ((evt) => {
+    });
+    this.onCardFaceDown = newOptions.onCardFaceDown || ((evt) => {
+    });
   }
 
   setDom(dom) {
@@ -63,6 +77,10 @@ class Card {
       value: dom,
       writable: false,
     });
+  }
+
+  setDOMClassContainer(val) {
+    this.dom.className = val;
   }
 
   addDOMClassContainer(val) {
@@ -77,21 +95,23 @@ class Card {
     this.dom.children[0].className += ` ${val}`;
   }
 
-  setClickEvent(onClick, activateListener = true) {
-    this.onClick = onClick.bind(this);
+  setClickEvent(onClick, props, activateListener = true) {
+    this.onClick = onClick.bind(this, props);
 
     if (activateListener) {
       this.activateClickEventListener();
     }
+
+    return this.onClick;
   }
 
-  setTransitionEvent({ onCardFaceUp , onCardFaceDown }, activateListener = true) {
+  setTransitionEvent({ onCardFaceUp, onCardFaceDown }, props, activateListener = true) {
     if (onCardFaceUp) {
-      this.onCardFaceUp = onCardFaceUp;
+      this.onCardFaceUp = onCardFaceUp.bind(this, props);
     }
 
     if (onCardFaceDown) {
-      this.onCardFaceDown = onCardFaceDown;
+      this.onCardFaceDown = onCardFaceDown.bind(this, props);
     }
 
     if (activateListener) {
@@ -130,11 +150,12 @@ class Card {
     const removed = [];
 
     for (let event in this.events) {
-      if(this.clearEvent(event)) {
+      if (this.clearEvent(event)) {
         removed.push(`${event} removed`);
-        this.events[event] = () => {};
+        this.events[event] = () => {
+        };
       } else {
-        console.error(`${event }event not removed from card ${this._id}`);
+        console.error(`${event}event not removed from card ${this._id}`);
       }
     }
 
@@ -211,6 +232,7 @@ class Card {
    * @param evt
    */
   _afterTransition(evt) {
+    console.log('aftertran', this, evt)
     this.transitioning = false;
 
     if (this.currentEvent === 'flipCardFaceUp') {
@@ -233,7 +255,7 @@ class Card {
    * @param img
    */
   clearFrontFaceImg(img = this.imageDefault) {
-    this.dom.querySelector('.front img').src = img;
+    this.dom.querySelector('.front img').src = `${img}`;
   }
 
   isTransitioning() {

@@ -1,21 +1,31 @@
-import Area from '../Area/Area';
-import Card from '../Card/Card';
+import { Area } from '../Area';
+import { Card } from '../Card';
 
-class Hand {
+/**
+ * Generate a Hand
+ * @class
+ */
+export default class Hand {
   constructor(id, options) {
     const defaultOptions = {
-      allowFlip: true,
-      cardsCanBeAdded: true,
-      cardsCanBeClicked: true,
-      cardsCanBeRemoved: true,
-      cardsCanBeSelected: true,
-      // rules: {
-      //     allowFlip: true,
-      //     cardLimit: -1 //infinite,
-      // }
+      cards: [],
+      data: {
+        test: 'test'
+      },
+      rules: {
+        test: '',
+        cardsCanBeAdded: true,
+        cardsCanBeClicked: true,
+        cardsCanBeRemoved: true,
+        cardsCanBeSelected: true,
+        allowFlip: true,
+      }
     }
 
     let newOptions = Object.assign({}, defaultOptions, options);
+    let userRules = newOptions.rules;
+    let userData = newOptions.data;
+
     Object.defineProperties(this, {
       '_id': {
         value: id,
@@ -23,18 +33,23 @@ class Hand {
       },
     });
 
-    this.area = newOptions.area || {};
-    this.rules = newOptions.rules || { allowFlip: true, cardLimit: -1 };
-    this.cardsCanBeClicked = newOptions.cardsCanBeClicked;
-    this.cardsCanBeSelected = newOptions.cardsCanBeSelected;
-    this.handleCardAdded = (card, hand) => console.log('Hand.handleCardAdded', card, hand);
-    this.handleCardRemoved = (card, hand) => console.log('Hand.handleCardRemoved', card);
-    this.events = {
-      onCardReceived: () => {},
-      onCardAdded: () => {},
-      onCardRemoved: () => {},
-      onCardRequested: () => {},
-    };
+    let newRules = Object.assign({}, defaultOptions.rules, userRules);
+    let newData = Object.assign({}, defaultOptions.data, userData);
+
+    this.areas = []; // @TODO solitare would need multiple areas with ids
+    this.area = newOptions.area || {}; // @TODO remove - use the method instead to register hand on area
+    this.rules = newRules;
+    this.data = newData;
+    this.handleCardAdded = (card, hand) => {};
+    this.handleCardRemoved = (card, hand) => {};
+
+    // for proxy
+    // this.events = {
+    //   onCardReceived: () => {},
+    //   onCardAdded: () => {},
+    //   onCardRemoved: () => {},
+    //   onCardRequested: () => {},
+    // };
     // this.arrayHandler = {
     //   get: (target, key) => {
     //     console.log(`${this._id} proxyCards get`, target, key);
@@ -67,20 +82,12 @@ class Hand {
     //   },
     // };
     // this.cards = new Proxy([], this.arrayHandler);
-    this.cards = [];
-
-    // this.onCardClick = this.onCardClick.bind(this);
-    // this.onCardFaceUp = this.onCardFaceUp.bind(this);
-    // this.onCardFaceDown = this.onCardFaceDown.bind(this);
+    this.cards = newOptions.cards || [];
   }
-
-  // setCardsContainer(dom) {
-  //     // set hand position
-  // }
 
   createArea(id, name, options) {
     this.area = new Area(id, name, options);
-    this.area.hand = this;
+
     Object.defineProperty(this.area, 'hand', {
       value: this,
       writable: false
@@ -89,12 +96,13 @@ class Hand {
     return this.area;
   }
 
+  // does not pass by reference, creates new array of cards!
   addCardsToHand(cards) {
     // this.cards = cards.filter(card => card instanceof Card);
     let filteredCards = cards.filter(card => card instanceof Card);
     // this.cards = new Proxy(filteredCards, this.arrayHandler);
     this.cards = filteredCards;
-    this.onCardsReceived();
+    // this.onCardsReceived();
   };
 
   async addCardToHand(card) {
@@ -108,31 +116,19 @@ class Hand {
   };
 
   async onCardAdded(card) {
-    console.log('Hand.onCardReceived', card)
+    // console.log('Hand.onCardReceived', card)
+    card.hand = this;
     await this.handleCardAdded(card, this);
 
     return Promise.resolve({ someVal : 'Hand.onCardReceived done'});
   }
 
   async onCardRemoved(card) {
-    console.log('Hand.onCardRemoved', card)
+    // console.log('Hand.onCardRemoved', card)
+    card.hand = null;
     await this.handleCardRemoved(card, this);
 
     return Promise.resolve({ someVal : 'Hand.onCardRemoved done'});
-  }
-
-  // this should be definable by the user
-  onCardsReceived() {
-    console.log('onCardsReceived')
-  }
-
-  // this should be definable by the user
-  async onCardReceived(card, callback) {
-    console.log('Hand.onCardReceived');
-    // callback();
-    // await this.area.onCardReceived(card);
-
-    return Promise.resolve({ someVal: 'onCardReceived' });
   }
 
   setUpCardEvents() {
@@ -142,17 +138,20 @@ class Hand {
     }
   }
 
-  /**
-   * What if wanted click events on cards in a certain place, ie how to select cards to apply event to
-   *
-   * @param fn
-   * @param activateListener
-   */
   setCardClickFn(fn, activateListener = true) {
-    console.log('Hand set cardClick', this.cards.length);
     if (this.cards.length > 0) {
       for (let card of this.cards) {
-        card.setClickEvent(fn, activateListener);
+        // card.setClickEvent(fn, activateListener);
+        card.onClick = fn.bind(this, { card });
+        card.activateClickEventListener();
+      }
+    }
+  }
+
+  setTransitionEvent({ onCardFaceUp , onCardFaceDown }, activateListener = true) {
+    if (this.cards.length > 0) {
+      for (let card of this.cards) {
+        card.setTransitionEvent({ onCardFaceUp: onCardFaceUp.bind(this, { card }), onCardFaceDown: onCardFaceDown.bind(this, { card }) }, activateListener);
       }
     }
   }
@@ -160,7 +159,7 @@ class Hand {
   setAfterCardFaceUpFn(fn, activateListener = true) {
     if (this.cards.length > 0) {
       for (let card of this.cards) {
-        card.setTransitionEvent({ onCardFaceUp: fn }, activateListener);
+        card.setTransitionEvent({ onCardFaceUp: fn.bind(this, {card}) }, activateListener);
       }
     }
   }
@@ -168,23 +167,19 @@ class Hand {
   setAfterCardFaceDownFn(fn, activateListener = true) {
     if (this.cards.length > 0) {
       for (let card of this.cards) {
-        card.setTransitionEvent({ onCardFaceDown: fn }, activateListener);
+        card.setTransitionEvent({ onCardFaceDown: fn.bind(this, {card}) }, activateListener);
       }
     }
   }
 
-  removeCardEvents() {
+  removeAllCardEvents() {
     for (let card of this.cards) {
-      console.log('removeCardEvents', card);
+      console.log('Hand.removeAllCardEvents & listeners', card);
       const removed = card.removeAllEvents();
       console.log('removed', removed);
     }
   }
 
-  /**
-   *
-   * @returns {boolean}
-   */
   allCardsTransitioned() {
     for (let card of this.cards) {
       if (card.transitioning) {
@@ -204,6 +199,19 @@ class Hand {
   findCardById(id) {
     return this.cards.find(o => o._id === id);
   }
-}
 
-export default Hand;
+  // for proxy
+  // // this should be definable by the user
+  // onCardsReceived() {
+  //   console.log('onCardsReceived')
+  // }
+  //
+  // // this should be definable by the user
+  // async onCardReceived(card, callback) {
+  //   console.log('Hand.onCardReceived');
+  //   // callback();
+  //   // await this.area.onCardReceived(card);
+  //
+  //   return Promise.resolve({ someVal: 'onCardReceived' });
+  // }
+}

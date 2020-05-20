@@ -1,19 +1,22 @@
-class Area {
+/**
+ * @class
+ */
+export default class Area {
   constructor(id, name, options) {
     const defaultOptions = {
       name: 'area',
       id: 'js-area',
       owner: 'board',
       placeHolders: {},
-      stackCardsOnTop: false,
+      // stackCardsOnTop: false,
       stackVertical: false,
-      maxCardsInVertical: 12,
-      maxColumnsForVertical: 7,
-      stackHorizontal: false,
+      // maxCardsInVertical: 12,
+      // maxColumnsForVertical: 7,
+      // stackHorizontal: false,
       maxCardsInHorizontal: 0,
-      maxRowsForHorizontal: 0,
+      // maxRowsForHorizontal: 0,
       flexArea: true,
-      autoStack: false,
+      dealCenterLine: false,
     }
 
     const newOptions = Object.assign({}, defaultOptions, options);
@@ -59,19 +62,13 @@ class Area {
     this.handleCardRemoved = (e) => {console.log('dom removed from area',e)};
     this.events = {}
     this.stackVertical = newOptions.stackVertical;
-    // 0 we assume area is a flex container
-    this.maxCardsInVertical = newOptions.maxCardsInVertical || 12;
-    // 0 we assume area is a flex container
-    this.maxColumnsForVertical = newOptions.maxColumnsForVertical || 7;
-    // 0 we assume area is a flex container
-    this.stackHorizontal = newOptions.stackHorizontal;
-    // 0 we assume area is a flex container
+    // this.maxCardsInVertical = newOptions.maxCardsInVertical || 12;
+    // this.maxColumnsForVertical = newOptions.maxColumnsForVertical || 7;
+    // this.stackHorizontal = newOptions.stackHorizontal;
     this.maxCardsInHorizontal = newOptions.maxCardsInHorizontal || 0;
-    // 0 we assume area is a flex container
-    this.maxRowsForHorizontal = newOptions.maxRowsForHorizontal || 0;
-    // for flex area to work cards must not have absolute position
+    // this.maxRowsForHorizontal = newOptions.maxRowsForHorizontal || 0;
     this.flexArea = newOptions.flexArea;
-    this.autoStack = newOptions.autoStack;
+    this.dealCenterLine = newOptions.dealCenterLine;
 
     this.dom = undefined;
 
@@ -137,33 +134,18 @@ class Area {
     return this;
   }
 
-  // detect click, if card, track
-  // addEvents() {
-  //   this.dom.addEventListener('')
-  // }
-
   async onCardReceived (card) {
-    console.log('Area.onCardReceived', card)
+    // console.log('Area.onCardReceived', card)
     await this.handleCardReceived(card);
 
     return Promise.resolve({ someVal : 'onCardReceived done'});
   }
 
   async onCardRemoved(card) {
-    console.log('Area.onCardRemoved', card)
+    // console.log('Area.onCardRemoved', card)
     await this.handleCardRemoved(card);
 
     return Promise.resolve({ someVal : 'onCardRemoved done'});
   }
 
-  assignEvent(type) {
-
-  }
-
-  calculateSiteElementOffsets() {
-    // given ids or class, calculate offsets
-  }
-
 }
-
-export default Area;

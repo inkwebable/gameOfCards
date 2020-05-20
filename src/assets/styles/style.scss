@@ -2,10 +2,39 @@
 @import 'cards';
 @import 'deck';
 
-#hand1 {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: center;
-  width:100%;
+#players {
+  position: relative;
+
+  #hand1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: 1px solid red;
+  }
+
+  .hand-flex-center {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    width:100%;
+  }
+
+  .hand-flex-start {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width:100%;
+  }
+
+  // maxCardsInHorizontal is ignored as flex is on
+  .hand-flex-start-limit {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 500px
+  }
 }
+

@@ -1,3 +1,8 @@
+# ide
 .idea
 
+# local resources
 node_modules
+
+src/assets/images/game-of-cards/pear-cards
+dist/images/game-of-cards/pear-cards

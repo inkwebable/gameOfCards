@@ -1,8 +1,26 @@
-import DeckFactory from '../Deck/DeckFactory';
-import PlayerFactory from '../Player/PlayerFactory';
+import { DeckFactory } from '../Deck';
+import { PlayerFactory } from '../Player';
 
-class Game {
+/**
+ * Generate a game
+ * @class
+ * @property {string} name - name of the game
+ * @property {object} data - hold custom game properties
+ * @property {array} decks - array of decks
+ * @property {array} players - array of players
+ */
+export default class Game {
+  /**
+   *
+   * @param {object} [options={name: 'GameOfCards', data: {}}] - options
+   * @param  {string} options.name=GameOfCards - name of the game
+   * @param  {string} options.data - hold custom data
+   */
   constructor(options) {
+    /**
+     * default options
+     * @type {{data: {}, name: string}}
+     */
     const defaultOptions = {
       name: 'GameOfCards',
       data: {}
@@ -10,16 +28,31 @@ class Game {
 
     let newOptions = Object.assign({}, defaultOptions, options)
     this.name = newOptions.name;
-    this.data = newOptions.data || {};
+    this.data = newOptions.data;
     this.decks = [];
-    this.deck = {};
     this.players = [];
-    this.events = {}
 
-    this.deckFactory = new DeckFactory();
-    this.playerFactory = new PlayerFactory();
+    Object.defineProperties(this, {
+      'deckFactory': {
+        value: new DeckFactory(),
+        writable: false,
+      },
+      'playerFactory': {
+        value: new PlayerFactory(),
+        writable: false,
+      },
+    });
   }
 
+  /**
+   * Generates a deck
+   * @param id
+   * @param {string} name - name of the deck
+   * @param {string} elementId - the id of the element
+   * @param options
+   * @param addToGame {boolean} - add the deck to the game deck property
+   * @returns {DefaultDeck}
+   */
   createStandardDeck(id, name, elementId, options, addToGame = true) {
     const deck = this.deckFactory.createDeck('default', { id, name, elementId, options });
     if (addToGame) {
@@ -28,10 +61,43 @@ class Game {
     return deck;
   }
 
-  addDeckToDecks(deck) {
-    this.decks.push(deck);
+  /**
+   * Generates a deck
+   * @param id
+   * @param {string} name - name of the deck
+   * @param {string} elementId - the id of the element
+   * @param options
+   * @param type {string} - the type of deck to create
+   * @param addToGame {boolean} - add the deck to the game deck property
+   * @returns {DefaultDeck}
+   */
+  createDeck(id, name, elementId, options, type= 'default', addToGame = true) {
+    const deck = this.deckFactory.createDeck(type, { id, name, elementId, options });
+    if (addToGame) {
+      this.addDeckToDecks(deck);
+    }
+    return deck;
   }
 
+  /**
+   * Add a deck to the game decks property
+   * @param {object} deck
+   * @returns {Array}
+   */
+  addDeckToDecks(deck) {
+    this.decks.push(deck);
+
+    return this.decks;
+  }
+
+  /**
+   * Create a player & optional add to the game
+   * @param id
+   * @param name
+   * @param options
+   * @param addToGame
+   * @returns {DefaultPlayer}
+   */
   createPlayer(id, name, options, addToGame = true) {
     const player = this.playerFactory.createPlayer('default', { id, name, options });
     if (addToGame) {
@@ -40,81 +106,57 @@ class Game {
     return player;
   }
 
+  /**
+   * Create a dealer for the game
+   * @param id
+   * @param name
+   * @param options
+   * @returns {DefaultPlayer}
+   */
+  createDealer(id, name = 'dealer', options) {
+    const defaultOptions = {
+      dealer: true, ready: false, playing: false,
+    }
+    let newOptions = Object.assign({}, defaultOptions, options);
+    const player = this.playerFactory.createPlayer('ai', { id, name, options: newOptions });
+
+    if (newOptions.playing) {
+      this.addPlayerToPlayers(player)
+    }
+
+    this.dealer = player;
+    return player
+  }
+
+  /**
+   * Add a player to the games players
+   * @param player
+   */
   addPlayerToPlayers(player) {
     this.players.push(player);
   }
 
-  // createHand(id, owner, options, addToPlayer = true) {
-  //     console.log('Game.createHand');
-  //     const hand = new Hand(id, owner, options)
-  // }
-
   /**
-   * set the afterCardFaceUp function on a card
-   * would be 2 expensive?, especially if there were many of these vs making user do it in a loop
-   *
-   * @param callback
+   * Find a player by name
+   * @param name
+   * @returns {*}
    */
-  setAfterCardFaceUp(callback) {
-    for (let card of this.deck.cards) {
-      card.afterCardFaceUp = callback;
-    }
-  }
-
-  setAfterCardFaceDown(callback) {
-    for (let card of this.deck.cards) {
-      card.afterCardFaceDown = callback;
-    }
-  }
-
-  /**
-   * What if wanted click events on cards in a certain place, ie how to select cards to apply event to
-   *
-   * @param callback
-   */
-  setCardClick(cards, callback) {
-    console.log('Game set cardClick');
-    for (let card of cards) {
-      card.onClick = callback;
-    }
-  }
-
-  /**
-   * Remove click event
-   *
-   * @param callback
-   */
-  removeCardClick(cards, callback) {
-    for (let card of cards) {
-      card.clearClick();
-    }
-  }
-
-  // @TODO change this
-  removeEvents(items) {
-    console.log('game - removeEvents ', items);
-
-    // @TODO remove comment - in instead of of as iterating object
-    for (let item in items) {
-      items[item].removeAllEvents();
-    }
-  }
-
   findPlayerByName(name) {
     if (this.players.length > 0) {
       return this.players.find(player => player.name === name);
     }
   }
 
+  /**
+   * Add the deck to the dom
+   * @param deckId
+   * @returns {Game}
+   */
   addDeckToDom(deckId) {
     const deck = deckId ? this.findDeckById(deckId) : this.decks[0];
     deck.addDeckToDOM();
 
     return this;
-  }
-
-  addDeckToDomOld(ElementId, markUp = this.deck._DOMCards) {
-    document.getElementById(ElementId).innerHTML = markUp.join('');
   }
 
   assignCardDomToCardObj(deckId) {
@@ -136,6 +178,15 @@ class Game {
     return this;
   }
 
+  /**
+   * Find a deck by id
+   *
+   * @example
+   * game.findDeckById(1);
+   *
+   * @param id
+   * @returns {*}
+   */
   findDeckById(id) {
     return this.decks.find(deck => deck._id === id);
   }
@@ -144,6 +195,7 @@ class Game {
     return this.players.find(player => player._id === id);
   }
 
+  // dealer doesn't have card by reference, so card returned is not from the dealer
   findCardById(cardId) {
     let card = null;
     if (this.decks.length > 0) {
@@ -159,5 +211,3 @@ class Game {
     }
   }
 }
-
-export default Game

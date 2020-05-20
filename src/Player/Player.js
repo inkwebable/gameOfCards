@@ -1,9 +1,15 @@
-import Hand from '../Hand/Hand';
+import { Hand } from '../Hand';
 
-class Player {
+/**
+ * @class
+ * Generate a Player
+ */
+export default class Player {
 
     constructor(id, name = 'player', options) {
+
       const defaultOptions = {
+        playing: true,
         ready: false,
         turn: false,
       }
@@ -25,13 +31,11 @@ class Player {
     createHand(id, options) {
       this.hand = new Hand(id, options);
 
+      Object.defineProperty(this.hand, 'player', {
+        value: this,
+        writable: false
+      });
+
       return this.hand;
     }
-
-    readyToPlay() {
-        this.ready = confirm('Ready to Start?');
-        return this.ready;
-    }
 }
-
-export default Player
