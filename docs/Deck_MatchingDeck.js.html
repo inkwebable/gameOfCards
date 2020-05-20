@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: Player/PlayerFactory.js</title>
+    <title>JSDoc: Source: Deck/MatchingDeck.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: Player/PlayerFactory.js</h1>
+    <h1 class="page-title">Source: Deck/MatchingDeck.js</h1>
 
     
 
@@ -26,30 +26,73 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import DefaultPlayer from "./DefaultPlayer";
-import AiPlayer from './AiPlayer';
+            <pre class="prettyprint source linenums"><code>import Deck from './Deck';
+import Card from '../Card/Card';
 
 /**
- * Player Factory
  * @class
  */
-export default class PlayerFactory {
-  constructor() {
-    this.playerClass = DefaultPlayer;
+export default class MatchingDeck extends Deck {
+  constructor({ id, name, elementId, options }) {
+    options.cardSuits = {};
+    options.cardValues = options.cardValues ? options.cardValues : {};
+    options.useSuits = false
+    super(id, name, elementId, options);
+
   }
 
-  createPlayer(type, props) {
-    switch (type) {
-      case 'ai':
-        this.playerClass = AiPlayer
-        break;
-      default:
-        this.playerClass = DefaultPlayer;
+  /**
+   * Creat deck of cards matching
+   */
+  createDeckObj() {
+    if (this.imageNames.length > 0) {
+      this.imageNames.forEach(name => {
+        let count = 0;
+
+        while (count &lt; this.numberOfEachCard) {
+          let randId = this.newNumber(this._ids);
+
+          let card = new Card({
+            name,
+            value: this.addValues ? this.cardValues[name] : 0,
+            suit: '',
+            image: `${this.imagePath}/${name}.${this.imageExt}`,
+            imageDefault: `${this.imagePath}/${this.frontOfCardSrc}`,
+            cardColor: this.cardSuits.suit,
+            id: randId.toString()
+          });
+          this.cards.push(card);
+
+          count++;
+        }
+      });
+    } else {
+      if (Object.keys(this.cardValues).length > 0) {
+        for (const name in this.cardValues) {
+
+          let count = 0;
+
+          while (count &lt; this.numberOfEachCard) {
+            let randId = this.newNumber(this._ids);
+
+            let card = new Card({
+              name,
+              value: this.addValues ? this.cardValues[name] : 0,
+              suit: '',
+              image: `${this.imagePath}/${name}.${this.imageExt}`,
+              imageDefault: `${this.imagePath}/${this.frontOfCardSrc}`,
+              cardColor: this.cardSuits.suit,
+              id: randId.toString()
+            });
+            this.cards.push(card);
+
+            count++;
+          }
+
+        }
+      }
     }
-
-    return new this.playerClass(props);
-  };
-
+  }
 }
 </code></pre>
         </article>

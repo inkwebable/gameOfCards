@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: Area/Area.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: Area/Area.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @class
+ */
+export default class Area {
+  constructor(id, name, options) {
+    const defaultOptions = {
+      name: 'area',
+      id: 'js-area',
+      owner: 'board',
+      placeHolders: {},
+      // stackCardsOnTop: false,
+      stackVertical: false,
+      // maxCardsInVertical: 12,
+      // maxColumnsForVertical: 7,
+      // stackHorizontal: false,
+      maxCardsInHorizontal: 0,
+      // maxRowsForHorizontal: 0,
+      flexArea: true,
+      dealCenterLine: false,
+    }
+
+    const newOptions = Object.assign({}, defaultOptions, options);
+    Object.defineProperties(this, {
+      'id': {
+        value: id,
+        writable: false,
+      },
+    });
+
+    this.name = name;
+    // this.id = newOptions.id || 'js-area';
+    this.owner = newOptions.owner || 'board';
+    this.placeHolders = newOptions.placeHolders || {};
+    this.position = {
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+    };
+    this.siteElementOffsets = {
+      top: 72,
+      right: 0,
+      bottom: 0,
+      left: 0
+    };
+    this.cards = [];
+    this.rules = {
+      cardsFaceDown: true,
+      cardsFaceUp: false,
+      canReceiveCards: true,
+      canRemoveCards: true,
+      canMoveCards: false,
+      canTurnCards: true,
+      playerCanSeeCards: true,
+      othersCanSeeCards: true,
+      maxCardsAllowed: undefined,
+    };
+    this.handleCardReceived = (e) => {
+      // console.log('dom added to area', e);
+      // find the card object &amp; do something?
+    };
+    this.handleCardRemoved = (e) => {console.log('dom removed from area',e)};
+    this.events = {}
+    this.stackVertical = newOptions.stackVertical;
+    // this.maxCardsInVertical = newOptions.maxCardsInVertical || 12;
+    // this.maxColumnsForVertical = newOptions.maxColumnsForVertical || 7;
+    // this.stackHorizontal = newOptions.stackHorizontal;
+    this.maxCardsInHorizontal = newOptions.maxCardsInHorizontal || 0;
+    // this.maxRowsForHorizontal = newOptions.maxRowsForHorizontal || 0;
+    this.flexArea = newOptions.flexArea;
+    this.dealCenterLine = newOptions.dealCenterLine;
+
+    this.dom = undefined;
+
+    this.getAreaPosition();
+  }
+
+  // find deck placement in dom using getBoundingClientRect()
+  getAreaPosition() {
+
+    let domArea = document.getElementById(this.id);
+    this.dom = domArea;
+    let playerBox = domArea.getBoundingClientRect();
+
+    this.position.top = playerBox.top - this.siteElementOffsets.top;
+    this.position.right = playerBox.right - this.siteElementOffsets.right;
+    this.position.bottom = playerBox.bottom - this.siteElementOffsets.bottom;
+    this.position.left = playerBox.left - this.siteElementOffsets.left;
+    console.log('getAreaPosition',this.id, this.position, domArea)
+  }
+
+  setObserver() {
+    // Select the node that will be observed for mutations
+    const targetNode = this.dom;
+
+    // Options for the observer (which mutations to observe)
+    const config = { attributes: false, childList: true, subtree: true };
+
+    // Callback function to execute when mutations are observed
+    const callback = (mutationsList, observer) => {
+      // Use traditional 'for loops' for IE 11
+      for(let mutation of mutationsList) {
+        // console.log(mutation);
+        if (mutation.type === 'childList') {
+          if(mutation.addedNodes.length > 0) {
+            // console.log('A child node has been added.', mutation.addedNodes);
+            mutation.addedNodes.forEach(async (item) => {
+              // console.log('childNode', item)
+              await this.onCardReceived(item);
+            });
+          }
+          if(mutation.removedNodes.length > 0) {
+            // console.log('A child node has been removed.');
+            mutation.removedNodes.forEach(async item => {
+              // console.log('childNode', item)
+              await this.onCardRemoved(item);
+            });
+          }
+        }
+        else if (mutation.type === 'attributes') {
+          console.log('The ' + mutation.attributeName + ' attribute was modified.');
+        }
+      }
+    };
+
+    // Create an observer instance linked to the callback function
+    const observer = new MutationObserver(callback);
+
+    // Start observing the target node for configured mutations
+    observer.observe(targetNode, config);
+
+    // // Later, you can stop observing
+    // observer.disconnect();
+    return this;
+  }
+
+  async onCardReceived (card) {
+    // console.log('Area.onCardReceived', card)
+    await this.handleCardReceived(card);
+
+    return Promise.resolve({ someVal : 'onCardReceived done'});
+  }
+
+  async onCardRemoved(card) {
+    // console.log('Area.onCardRemoved', card)
+    await this.handleCardRemoved(card);
+
+    return Promise.resolve({ someVal : 'onCardRemoved done'});
+  }
+
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Card.html">Card</a></li><li><a href="DefaultPlayer.html">DefaultPlayer</a></li><li><a href="module.exports.html">exports</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addDeckToDecks">addDeckToDecks</a></li><li><a href="global.html#addDeckToDOM">addDeckToDOM</a></li><li><a href="global.html#addDeckToDom">addDeckToDom</a></li><li><a href="global.html#addPlayerToPlayers">addPlayerToPlayers</a></li><li><a href="global.html#createDealer">createDealer</a></li><li><a href="global.html#createDeck">createDeck</a></li><li><a href="global.html#createDeckObj">createDeckObj</a></li><li><a href="global.html#createPlayer">createPlayer</a></li><li><a href="global.html#createStandardDeck">createStandardDeck</a></li><li><a href="global.html#findCardById">findCardById</a></li><li><a href="global.html#findDeckById">findDeckById</a></li><li><a href="global.html#findPlayerByName">findPlayerByName</a></li><li><a href="global.html#makeDomDeck">makeDomDeck</a></li><li><a href="global.html#newNumber">newNumber</a></li><li><a href="global.html#shuffleCardsObj">shuffleCardsObj</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Wed May 20 2020 20:11:18 GMT+0100 (British Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

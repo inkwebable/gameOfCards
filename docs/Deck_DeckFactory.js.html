@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: DefaultPlayer</title>
+    <title>JSDoc: Source: Deck/DeckFactory.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,137 +17,44 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: DefaultPlayer</h1>
+    <h1 class="page-title">Source: Deck/DeckFactory.js</h1>
 
     
 
 
 
-
-<section>
-
-<header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>DefaultPlayer<span class="signature">()</span><span class="type-signature"></span></h2>
-        
-            <div class="class-description"><p>A default player</p></div>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-
-    
-    <h2>Constructor</h2>
-    
-
-    
-    <h4 class="name" id="DefaultPlayer"><span class="type-signature"></span>new DefaultPlayer<span class="signature">()</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Player_DefaultPlayer.js.html">Player/DefaultPlayer.js</a>, <a href="Player_DefaultPlayer.js.html#line7">line 7</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    </div>
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import DefaultDeck from './DefaultDeck';
+import MatchingDeck from './MatchingDeck';
+
+/**
+ * @class
+ */
+export default class DeckFactory {
+
+  constructor() {
+    this.deckClass = DefaultDeck;
+  }
+
+  createDeck(type, props) {
+    switch (type) {
+      case 'default':
+        this.deckClass = DefaultDeck;
+        break;
+      case 'matching':
+        this.deckClass = MatchingDeck;
+        break;
+    }
+
+    return new this.deckClass(props);
+  };
+
+}
+</code></pre>
+        </article>
+    </section>
 
 
 
