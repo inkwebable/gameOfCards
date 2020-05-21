@@ -1,8 +1,13 @@
 /**
  * @class
- * Generate a Card
+ * @property _id {string} card id
  */
+
 class Card {
+  /**
+   * @TODO split options
+   * @param {object} [options={name: false, value: 0, suit: false, image: false, imageDefault: false, cardColor: false,visible: false, allowFlip: false, clickable: false,movable: false, moving: false, droppable: false,inArea: false, transitioning: false, faceUp: false,faceDown: false, currentEvent: false,events: { click, transitioned },onClick, onCardFaceUp, onCardFaceDown}] - options
+   */
   constructor(options) {
     const defaultOptions = {
       name: '',
@@ -28,6 +33,10 @@ class Card {
         transitionend: () => {
         },
       },
+      /**
+       *
+       * @param evt {HTMLElement}
+       */
       onClick: (evt) => {
       },
       onCardFaceUp: () => {
@@ -72,6 +81,10 @@ class Card {
     });
   }
 
+  /**
+   * Set the dom make up for a card
+   * @param dom {Node}
+   */
   setDom(dom) {
     Object.defineProperty(this, 'dom', {
       value: dom,
@@ -79,22 +92,45 @@ class Card {
     });
   }
 
+  /**
+   * Set the card container class
+   * @param val {string}
+   */
   setDOMClassContainer(val) {
     this.dom.className = val;
   }
 
+  /**
+   * Append to the card container class
+   * @param val {string}
+   */
   addDOMClassContainer(val) {
     this.dom.className += ` ${val}`;
   }
 
+  /**
+   * Set the card class
+   * @param val {string}
+   */
   setDOMClassCard(val) {
     this.dom.children[0].className = val;
   }
 
+  /**
+   * append to the card class
+   * @param val {string}
+   */
   addDOMClassCard(val) {
     this.dom.children[0].className += ` ${val}`;
   }
 
+  /**
+   *
+   * @param onClick {function}
+   * @param props {*}
+   * @param activateListener {boolean}
+   * @returns {onClick}
+   */
   setClickEvent(onClick, props, activateListener = true) {
     this.onClick = onClick.bind(this, props);
 
@@ -105,6 +141,14 @@ class Card {
     return this.onClick;
   }
 
+  /**
+   * Set the transition event fns
+   *
+   * @param onCardFaceUp {function}
+   * @param onCardFaceDown {function}
+   * @param props {*}
+   * @param activateListener {boolean}}
+   */
   setTransitionEvent({ onCardFaceUp, onCardFaceDown }, props, activateListener = true) {
     if (onCardFaceUp) {
       this.onCardFaceUp = onCardFaceUp.bind(this, props);
@@ -119,18 +163,27 @@ class Card {
     }
   }
 
+  /**
+   * Activate the click event listener
+   */
   activateClickEventListener() {
     this.clearClickListener();
     this.events.click = this.onClick;
     this.dom.addEventListener('click', this.events.click);
   }
 
+  /**
+   * Activate the transitioned event listener
+   */
   activateTransitionedEventListener() {
     this.clearTransitionedListener();
     this.events.transitionend = this._afterTransition.bind(this);
     this.dom.addEventListener('transitionend', this.events.transitionend);
   }
 
+  /**
+   * Activate all the html event listeners
+   */
   activateAllEventListeners() {
     console.log('core/Card activateAllEvents', this);
     this.removeAllEventListeners();
@@ -139,12 +192,18 @@ class Card {
     this.activateTransitionedEventListener();
   }
 
+  /**
+   * Remove all html event listeners
+   */
   removeAllEventListeners() {
     this.clearClickListener();
     this.clearTransitionedListener();
   }
 
-  // Dynamically remove all events
+  /**
+   * Dynamically remove all events
+   * @returns {Array}
+   */
   removeAllEvents() {
     console.log('core/Card removeAllEvents', this);
     const removed = [];
@@ -164,6 +223,7 @@ class Card {
 
   /**
    * Remove the given event listener from the card
+   * @param event {HTMLElement}
    */
   clearEvent(event) {
     if ({}.hasOwnProperty.call(this.events, event)) {
@@ -177,6 +237,7 @@ class Card {
 
   /**
    * Remove the click event from the card
+   * @param event {HTMLElement}
    */
   clearClickListener(event = this.events.click) {
     this.dom.removeEventListener('click', event);
@@ -184,6 +245,7 @@ class Card {
 
   /**
    * Remove the transitioned event from the card
+   * @param event {HTMLElement}
    */
   clearTransitionedListener(event = this.events.transitionend) {
     this.dom.removeEventListener('transitionend', event);
@@ -229,7 +291,7 @@ class Card {
   /**
    * Handle transition end events
    *
-   * @param evt
+   * @param evt {HTMLElement}
    */
   _afterTransition(evt) {
     console.log('aftertran', this, evt)
@@ -252,7 +314,7 @@ class Card {
   /**
    * Reset the src for front of the card
    *
-   * @param img
+   * @param img {string}
    */
   clearFrontFaceImg(img = this.imageDefault) {
     this.dom.querySelector('.front img').src = `${img}`;

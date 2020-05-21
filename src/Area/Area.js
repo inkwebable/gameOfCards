@@ -1,15 +1,31 @@
 /**
  * Area
  * @class
+ * @property {string | number} _id - The id of the area
+ * @property {string} id - The Element id of the area
+ * @property {string} name - The name of the area
+ * @property {Hand} hand - hand that owns the area
+ * @property {boolean} stackVertical - whether the cards should stack on top of eachother
+ * @property {boolean} flexArea - whether the area should/is a display:flex
+ * @property {boolean} dealCenterLine - whether animation should be dealt directly down from the deck
+ * @property {number} maxCardsInHorizontal - how many cards to deal per row (overridden by flexArea)
  */
 
 class Area {
-  constructor(id, name, options) {
+  /**
+   *
+   * @param id {string | number}
+   * @param elementId {string}
+   * @param name {string}
+   * @param {object} [options={stackVertical: false, maxCardsInHorizontal: 0, flexArea: false, daelCenterLine: false}] - options
+   * @param  {boolean} [options.stackVertical=true]
+   * @param  {boolean} [options.maxCardsInHorizontal=0]
+   * @param  {boolean} [options.flexArea=true]
+   * @param  {boolean} [options.dealCenterLine=false]
+   */
+  constructor(id, elementId, name, options) {
     const defaultOptions = {
-      name: 'area',
-      id: 'js-area',
-      owner: 'board',
-      placeHolders: {},
+      // placeHolders: {}, @TODO
       // stackCardsOnTop: false,
       stackVertical: false,
       // maxCardsInVertical: 12,
@@ -23,15 +39,17 @@ class Area {
 
     const newOptions = Object.assign({}, defaultOptions, options);
     Object.defineProperties(this, {
-      'id': {
+      '_id': {
         value: id,
+        writable: false,
+      },
+      'elementId': {
+        value: elementId,
         writable: false,
       },
     });
 
     this.name = name;
-    // this.id = newOptions.id || 'js-area';
-    this.owner = newOptions.owner || 'board';
     this.placeHolders = newOptions.placeHolders || {};
     this.position = {
       top: 0,
@@ -57,10 +75,18 @@ class Area {
       othersCanSeeCards: true,
       maxCardsAllowed: undefined,
     };
+    /**
+     * User definable fn for when a card is received if events were setup on the area
+     * @param e
+     */
     this.handleCardReceived = (e) => {
       // console.log('dom added to area', e);
       // find the card object & do something?
     };
+    /**
+     * User definable fn for when a card is removed if events were setup on the area
+     * @param e
+     */
     this.handleCardRemoved = (e) => {console.log('dom removed from area',e)};
     this.events = {}
     this.stackVertical = newOptions.stackVertical;
@@ -77,10 +103,12 @@ class Area {
     this.getAreaPosition();
   }
 
-  // find deck placement in dom using getBoundingClientRect()
+  /**
+   * Find area position in the dom
+   */
   getAreaPosition() {
 
-    let domArea = document.getElementById(this.id);
+    let domArea = document.getElementById(this.elementId);
     this.dom = domArea;
     let playerBox = domArea.getBoundingClientRect();
 
@@ -88,9 +116,13 @@ class Area {
     this.position.right = playerBox.right - this.siteElementOffsets.right;
     this.position.bottom = playerBox.bottom - this.siteElementOffsets.bottom;
     this.position.left = playerBox.left - this.siteElementOffsets.left;
-    console.log('getAreaPosition',this.id, this.position, domArea)
+    console.log('getAreaPosition',this.elementId, this.position, domArea)
   }
 
+  /**
+   * Set the observers on an area such as when a card is added or removed
+   * @returns {Area}
+   */
   setObserver() {
     // Select the node that will be observed for mutations
     const targetNode = this.dom;
@@ -136,6 +168,12 @@ class Area {
     return this;
   }
 
+  /**
+   * Internal call made by {@link Area#setObserver} when a card has been added to the area
+   * @async
+   * @param card
+   * @returns {Promise<{someVal: string}>}
+   */
   async onCardReceived (card) {
     // console.log('Area.onCardReceived', card)
     await this.handleCardReceived(card);
@@ -143,6 +181,12 @@ class Area {
     return Promise.resolve({ someVal : 'onCardReceived done'});
   }
 
+  /**
+   * Internal call made by {@link Area#setObserver} when a card has been removed from the area
+   * @async
+   * @param card
+   * @returns {Promise<{someVal: string}>}
+   */
   async onCardRemoved(card) {
     // console.log('Area.onCardRemoved', card)
     await this.handleCardRemoved(card);

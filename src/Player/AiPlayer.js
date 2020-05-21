@@ -2,7 +2,7 @@ import Player from './Player';
 
 /**
  * Ai Player
- * @class
+ * @extends Player
  */
 
 class AiPlayer extends Player {

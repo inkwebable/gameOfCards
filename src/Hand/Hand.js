@@ -5,9 +5,13 @@ import { Card } from '../Card';
  * A game object
  * @class
  * @property {string} name - The name of the person.
- * @property {object<*>} data - hold custom data
- * @property {array} decks - hold decks
- * @property {array} players -hold players
+ * @property {object} data - hold custom data
+ * @property {Area[]} areas - an array of areas
+ * @property {Card[]} cards - an array of cards
+ * @property {Area} area -the hand area
+ * @property {Player} player - player that owns the hand
+ * @property {object} rules - hand rules
+ * @property {object} data - hand data
  */
 
 class Hand {
@@ -22,7 +26,6 @@ class Hand {
    */
   constructor(id, options) {
     const defaultOptions = {
-      cards: [],
       data: {
         test: 'test'
       },
@@ -50,9 +53,11 @@ class Hand {
     let newRules = Object.assign({}, defaultOptions.rules, userRules);
     let newData = Object.assign({}, defaultOptions.data, userData);
 
-    /** @type {Array} */
-    this.areas = []; // @TODO solitare would need multiple areas with ids
-    /** @type {Object} */
+    /** @type {Card[]} */
+    this.cards = [];
+    /** @type {Area[]} */
+    this.areas = []; //
+    /** @type {Area} */
     this.area =  {};
     /** @type {Object} */
     this.rules = newRules;
@@ -115,20 +120,33 @@ class Hand {
 
   /**
    * Create an area for a hand
-   * @param id {string}
+   * @param elementId {string}
    * @param name {string}
    * @param options {object}
    * @returns {Object}
    */
-  createArea(id, name, options) {
-    this.area = new Area(id, name, options);
+  createArea(elementId, name, options) {
+    const area = new Area(`${this.player._id}-${this._id}-area-${this.areas.length}`, elementId, name, options);
 
     Object.defineProperty(this.area, 'hand', {
       value: this,
       writable: false
     });
 
+    this.addAreaToAreas(area);
+
+    // @TODO make this area the default area optional
+    this.area = area;
+
     return this.area;
+  }
+
+  /**
+   * Add an area to the areas array
+   * @param area {Area}
+   */
+  addAreaToAreas(area) {
+    this.areas.push(area);
   }
 
   /**

@@ -28,7 +28,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>Area<span class="signature">()</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>Area<span class="signature">(id, elementId, name, options<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h2>
         
             <div class="class-description"><p>Area</p></div>
         
@@ -45,7 +45,7 @@
     
 
     
-    <h4 class="name" id="Area"><span class="type-signature"></span>new Area<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="Area"><span class="type-signature"></span>new Area<span class="signature">(id, elementId, name, options<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
@@ -60,6 +60,585 @@
 
 
 
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>elementId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    {stackVertical: false, maxCardsInHorizontal: 0, flexArea: false, daelCenterLine: false}
+                
+                </td>
+            
+
+            <td class="description last"><p>options</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>stackVertical</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    true
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>maxCardsInHorizontal</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>flexArea</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    true
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dealCenterLine</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    false
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+    <h5 class="subsection-title">Properties:</h5>
+
+    
+
+<table class="props">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>_id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The id of the area</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The Element id of the area</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The name of the area</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>hand</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Hand.html">Hand</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>hand that owns the area</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>stackVertical</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>whether the cards should stack on top of eachother</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>flexArea</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>whether the area should/is a display:flex</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>dealCenterLine</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>whether animation should be dealt directly down from the deck</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>maxCardsInHorizontal</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>how many cards to deal per row (overridden by flexArea)</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -93,7 +672,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Area_Area.js.html">Area/Area.js</a>, <a href="Area_Area.js.html#line7">line 7</a>
+        <a href="Area_Area.js.html">Area/Area.js</a>, <a href="Area_Area.js.html#line26">line 26</a>
     </li></ul></dd>
     
 
@@ -141,6 +720,780 @@
     
 
     
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="getAreaPosition"><span class="type-signature"></span>getAreaPosition<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary"><p>Find area position in the dom</p>.</p>
+    
+
+
+
+<div class="description">
+    <p>Find area position in the dom</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Area_Area.js.html">Area/Area.js</a>, <a href="Area_Area.js.html#line109">line 109</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="handleCardReceived"><span class="type-signature"></span>handleCardReceived<span class="signature">(e)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary"><p>User definable fn for when a card is received if events were setup on the area</p>.</p>
+    
+
+
+
+<div class="description">
+    <p>User definable fn for when a card is received if events were setup on the area</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>e</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Area_Area.js.html">Area/Area.js</a>, <a href="Area_Area.js.html#line82">line 82</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="handleCardRemoved"><span class="type-signature"></span>handleCardRemoved<span class="signature">(e)</span><span class="type-signature"></span></h4>
+    
+
+    
+    <p class="summary"><p>User definable fn for when a card is removed if events were setup on the area</p>.</p>
+    
+
+
+
+<div class="description">
+    <p>User definable fn for when a card is removed if events were setup on the area</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>e</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Area_Area.js.html">Area/Area.js</a>, <a href="Area_Area.js.html#line90">line 90</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="onCardReceived"><span class="type-signature">(async) </span>onCardReceived<span class="signature">(card)</span><span class="type-signature"> &rarr; {Promise.&lt;{someVal: string}>}</span></h4>
+    
+
+    
+    <p class="summary"><p>Internal call made by <a href="Area.html#setObserver">Area#setObserver</a> when a card has been added to the area</p>.</p>
+    
+
+
+
+<div class="description">
+    <p>Internal call made by <a href="Area.html#setObserver">Area#setObserver</a> when a card has been added to the area</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>card</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Area_Area.js.html">Area/Area.js</a>, <a href="Area_Area.js.html#line177">line 177</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;{someVal: string}></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="onCardRemoved"><span class="type-signature">(async) </span>onCardRemoved<span class="signature">(card)</span><span class="type-signature"> &rarr; {Promise.&lt;{someVal: string}>}</span></h4>
+    
+
+    
+    <p class="summary"><p>Internal call made by <a href="Area.html#setObserver">Area#setObserver</a> when a card has been removed from the area</p>.</p>
+    
+
+
+
+<div class="description">
+    <p>Internal call made by <a href="Area.html#setObserver">Area#setObserver</a> when a card has been removed from the area</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>card</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Area_Area.js.html">Area/Area.js</a>, <a href="Area_Area.js.html#line190">line 190</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;{someVal: string}></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="setObserver"><span class="type-signature"></span>setObserver<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="Area.html">Area</a>}</span></h4>
+    
+
+    
+    <p class="summary"><p>Set the observers on an area such as when a card is added or removed</p>.</p>
+    
+
+
+
+<div class="description">
+    <p>Set the observers on an area such as when a card is added or removed</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="Area_Area.js.html">Area/Area.js</a>, <a href="Area_Area.js.html#line126">line 126</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="Area.html">Area</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+    
 
     
 
@@ -155,13 +1508,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AiPlayer.html">AiPlayer</a></li><li><a href="Area.html">Area</a></li><li><a href="Card.html">Card</a></li><li><a href="Deck.html">Deck</a></li><li><a href="DeckFactory.html">DeckFactory</a></li><li><a href="DefaultDeck.html">DefaultDeck</a></li><li><a href="DefaultPlayer.html">DefaultPlayer</a></li><li><a href="Game.html">Game</a></li><li><a href="Hand.html">Hand</a></li><li><a href="module.exports.html">exports</a></li><li><a href="Player.html">Player</a></li><li><a href="PlayerFactory.html">PlayerFactory</a></li></ul><h3>Global</h3><ul><li><a href="global.html#createDeckObj">createDeckObj</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AiPlayer.html">AiPlayer</a></li><li><a href="Area.html">Area</a></li><li><a href="Card.html">Card</a></li><li><a href="Deck.html">Deck</a></li><li><a href="DeckFactory.html">DeckFactory</a></li><li><a href="DefaultDeck.html">DefaultDeck</a></li><li><a href="DefaultPlayer.html">DefaultPlayer</a></li><li><a href="Game.html">Game</a></li><li><a href="Hand.html">Hand</a></li><li><a href="MatchingDeck.html">MatchingDeck</a></li><li><a href="Player.html">Player</a></li><li><a href="PlayerFactory.html">PlayerFactory</a></li></ul><h3>Global</h3><ul><li><a href="global.html#animateCardFromOneAreaToAnother">animateCardFromOneAreaToAnother</a></li><li><a href="global.html#cardShuffle">cardShuffle</a></li><li><a href="global.html#dealCards">dealCards</a></li><li><a href="global.html#swapDomElements">swapDomElements</a></li><li><a href="global.html#wait">wait</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Thu May 21 2020 13:50:38 GMT+0100 (British Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Thu May 21 2020 15:46:31 GMT+0100 (British Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

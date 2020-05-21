@@ -5,7 +5,7 @@ import { PlayerFactory } from '../Player';
  * A game object
  * @class
  * @property {string} name - The name of the person.
- * @property {object<*>} data - hold custom data
+ * @property {object} data - hold custom data
  * @property {array} decks - hold decks
  * @property {array} players -hold players
  */
@@ -14,8 +14,8 @@ class Game {
   /**
    *
    * @param {object} [options={name: 'GameOfCards', data: {}}] - options
-   * @param  {string} options.name=GameOfCards - name of the game
-   * @param  {object} options.data={} - hold custom data
+   * @param  {string} [options.name=GameOfCards] - name of the game
+   * @param  {object} [options.data={}] - hold custom data
    */
   constructor(options) {
     /**
@@ -59,10 +59,10 @@ class Game {
 
   /**
    * Generates a deck
-   * @param id
+   * @param id {string | number}
    * @param {string} name - name of the deck
    * @param {string} elementId - the id of the element
-   * @param options
+   * @param options {object}
    * @param addToGame {boolean} - add the deck to the game deck property
    * @returns {DefaultDeck}
    */
@@ -82,7 +82,7 @@ class Game {
    * @param options
    * @param type {string} - the type of deck to create
    * @param addToGame {boolean} - add the deck to the game deck property
-   * @returns {DefaultDeck}
+   * @returns {DefaultDeck | MatchingDeck}
    */
   createDeck(id, name, elementId, options, type= 'default', addToGame = true) {
     const deck = this.deckFactory.createDeck(type, { id, name, elementId, options });
@@ -124,7 +124,7 @@ class Game {
    * @param id
    * @param name
    * @param options
-   * @returns {DefaultPlayer}
+   * @returns {AiPlayer}
    */
   createDealer(id, name = 'dealer', options) {
     const defaultOptions = {
@@ -143,7 +143,7 @@ class Game {
 
   /**
    * Add a player to the games players
-   * @param player
+   * @param player {Player}
    */
   addPlayerToPlayers(player) {
     this.players.push(player);
@@ -152,7 +152,7 @@ class Game {
   /**
    * Find a player by name
    * @param name
-   * @returns {*}
+   * @returns {Player}
    */
   findPlayerByName(name) {
     if (this.players.length > 0) {

@@ -213,7 +213,7 @@ class Deck {
   /**
    * Allows finding of card by id (ids are created when deck is created and match id on the dom)
    *
-   * @param id
+   * @param id {string}
    */
   findCardById(id) {
     return this.cards.find(o => o._id === id);

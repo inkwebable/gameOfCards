@@ -1,9 +1,37 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: helpers/utils.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: helpers/utils.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * SetTimeout promise
  *
  * @function
  * @param ms {number} - in ms
- * @returns {Promise<unknown>}
+ * @returns {Promise&lt;unknown>}
  */
 export const wait = ms => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -17,7 +45,7 @@ export const wait = ms => new Promise((resolve) => setTimeout(resolve, ms));
  * @param {object} [options={index: 0, delay: 500}] - options
  * @param  {number} [options.index=0]
  * @param  {number} [options.delay=500]
- * @returns {Promise<{data: number}>}
+ * @returns {Promise&lt;{data: number}>}
  */
 export const cardShuffle = async (cards = [], callback = () => {}, options = {}) => {
   let defaultOptions = { index: 0, delay: 500 };
@@ -25,7 +53,7 @@ export const cardShuffle = async (cards = [], callback = () => {}, options = {})
 
   await wait(delay);
 
-  while (index <= (cards.length - 2)) {
+  while (index &lt;= (cards.length - 2)) {
     let cardObj1 = cards[index]
     let cardObj2 = cards[index + 1]
 
@@ -100,7 +128,7 @@ export const swapDomElements = (obj1, obj2) => {
  * @param toHand {Hand}
  * @param card {Card}
  * @param options
- * @returns {Promise<{data: string}>}
+ * @returns {Promise&lt;{data: string}>}
  */
 export const animateCardFromOneAreaToAnother = async (fromHand, toHand, card, options) => {
   let defaultOptions = { speed: 300, inlineFlex: false, moveCardObjects: false };
@@ -113,15 +141,15 @@ export const animateCardFromOneAreaToAnother = async (fromHand, toHand, card, op
   let cardHeightOffset = toHand.cards.length * (cardHeight - (cardHeight / 2));
   let stackHorizontal = toHand.area.stackHorizontal;
   let stackVertical = toHand.area.stackVertical;
-  let flexArea = toHand.area.flexArea; // turn on or off flex options & position absolute/relative
+  let flexArea = toHand.area.flexArea; // turn on or off flex options &amp; position absolute/relative
   let maxCardsInHorizontal = toHand.area.maxCardsInHorizontal;
   let dealCenterLine = toHand.area.dealCenterLine;
   let row = 0;
 
   // auto work out the amount of cards a flex box can take
-  if (flexArea && !stackVertical) {
+  if (flexArea &amp;&amp; !stackVertical) {
     // @TODO fix bug when there is no width on the dom and dealing area is set to flex
-    let width = toHand.area.dom.offsetWidth < cardWidth ? cardWidth : toHand.area.dom.offsetWidth
+    let width = toHand.area.dom.offsetWidth &lt; cardWidth ? cardWidth : toHand.area.dom.offsetWidth
     console.log('area.dom.width', toHand.area.dom.offsetWidth, width);
     maxCardsInHorizontal = Math.floor(parseInt(width, 10) / parseInt(cardWidth, 10));
     console.log(`max in hori ${maxCardsInHorizontal}`, toHand.area.dom.offsetWidth, cardWidth, toHand.cards.length);
@@ -155,7 +183,7 @@ export const animateCardFromOneAreaToAnother = async (fromHand, toHand, card, op
     cardWidthOffset = cardWidth * (toHand.cards.length % maxCardsInHorizontal);
 
     // when no width on flex area, must use the cardWidth as the offset and set the row to 0 until MCIH is determined
-    if(flexArea && (toHand.cards.length === maxCardsInHorizontal) && cardWidthOffset === 0) {
+    if(flexArea &amp;&amp; (toHand.cards.length === maxCardsInHorizontal) &amp;&amp; cardWidthOffset === 0) {
       row = 0;
       cardWidthOffset = cardWidth * toHand.cards.length;
     }
@@ -170,7 +198,7 @@ export const animateCardFromOneAreaToAnother = async (fromHand, toHand, card, op
     }
 
     // force styles for flex
-    if (inlineFlex && flexArea) {
+    if (inlineFlex &amp;&amp; flexArea) {
       if (dealCenterLine) {
         // TODO rely on user to set this?
         toHand.area.dom.style.justifyContent = 'center';
@@ -225,7 +253,7 @@ export const animateCardFromOneAreaToAnother = async (fromHand, toHand, card, op
  * @param dealer {Player}
  * @param toPlayers {Array}
  * @param options
- * @returns {Promise<{data: string}>}
+ * @returns {Promise&lt;{data: string}>}
  */
 export const dealCards = async (dealer, toPlayers, options = {}) => {
   let defaultOptions = { totalCardsToDeal: 0, perPlayer: 0, speed: 300, sequential: false, delay: 1000, inlineFlex: false, moveCardObjects: false };
@@ -247,7 +275,7 @@ export const dealCards = async (dealer, toPlayers, options = {}) => {
     perPlayer = totalCardsToDeal / playerLen;
   }
 
-  while (count < totalCardsToDeal && dealer.hand.cards.length !== 0 && noError) {
+  while (count &lt; totalCardsToDeal &amp;&amp; dealer.hand.cards.length !== 0 &amp;&amp; noError) {
     // get a ref to a card from the dealer
     let card = dealer.hand.getLastCard();
 
@@ -292,9 +320,9 @@ export const dealCards = async (dealer, toPlayers, options = {}) => {
 //   var allareas = [playerPos, OpponentPos, arena, deck];
 //   var holder = null;
 //
-//   for (var i = 0; i < allareas.length; i++) {
+//   for (var i = 0; i &lt; allareas.length; i++) {
 //
-//     if (mouseX <= allareas[i].right && mouseX >= allareas[i].left && mouseY >= allareas[i].top && mouseY <= allareas[i].bottom) {
+//     if (mouseX &lt;= allareas[i].right &amp;&amp; mouseX >= allareas[i].left &amp;&amp; mouseY >= allareas[i].top &amp;&amp; mouseY &lt;= allareas[i].bottom) {
 // //                    console.log('in area ' + allareas[i].name);
 //
 //       holder = allareas[i].name;
@@ -317,3 +345,26 @@ export const dealCards = async (dealer, toPlayers, options = {}) => {
 // export const removeDomEvent = (object, type) => {
 //   object.dom.removeEventListener(type, object.events[type])
 // }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AiPlayer.html">AiPlayer</a></li><li><a href="Area.html">Area</a></li><li><a href="Card.html">Card</a></li><li><a href="Deck.html">Deck</a></li><li><a href="DeckFactory.html">DeckFactory</a></li><li><a href="DefaultDeck.html">DefaultDeck</a></li><li><a href="DefaultPlayer.html">DefaultPlayer</a></li><li><a href="Game.html">Game</a></li><li><a href="Hand.html">Hand</a></li><li><a href="MatchingDeck.html">MatchingDeck</a></li><li><a href="Player.html">Player</a></li><li><a href="PlayerFactory.html">PlayerFactory</a></li></ul><h3>Global</h3><ul><li><a href="global.html#animateCardFromOneAreaToAnother">animateCardFromOneAreaToAnother</a></li><li><a href="global.html#cardShuffle">cardShuffle</a></li><li><a href="global.html#dealCards">dealCards</a></li><li><a href="global.html#swapDomElements">swapDomElements</a></li><li><a href="global.html#wait">wait</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Thu May 21 2020 15:46:31 GMT+0100 (British Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

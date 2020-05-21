@@ -104,17 +104,17 @@
     
 
     
-    <h4 class="name" id="createDeckObj"><span class="type-signature"></span>createDeckObj<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="animateCardFromOneAreaToAnother"><span class="type-signature"></span>animateCardFromOneAreaToAnother<span class="signature">(fromHand, toHand, card, options)</span><span class="type-signature"> &rarr; {Promise.&lt;{data: string}>}</span></h4>
     
 
     
-    <p class="summary"><p>Creat deck of cards matching</p>.</p>
+    <p class="summary"><p>Move card from one <a href="Area.html">Area</a> to another</p>.</p>
     
 
 
 
 <div class="description">
-    <p>Creat deck of cards matching</p>
+    <p>Move card from one <a href="Area.html">Area</a> to another</p>
 </div>
 
 
@@ -123,6 +123,119 @@
 
 
 
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>fromHand</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Hand.html">Hand</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>toHand</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Hand.html">Hand</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>card</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Card.html">Card</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
 
 
 
@@ -158,7 +271,734 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Deck_MatchingDeck.js.html">Deck/MatchingDeck.js</a>, <a href="Deck_MatchingDeck.js.html#line19">line 19</a>
+        <a href="helpers_utils.js.html">helpers/utils.js</a>, <a href="helpers_utils.js.html#line105">line 105</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;{data: string}></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="cardShuffle"><span class="type-signature">(async) </span>cardShuffle<span class="signature">(cards, callback, options<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise.&lt;{data: number}>}</span></h4>
+    
+
+    
+    <p class="summary"><p>Shuffle the cards</p>.</p>
+    
+
+
+
+<div class="description">
+    <p>Shuffle the cards</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>cards</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array.&lt;Cards></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    {index: 0, delay: 500}
+                
+                </td>
+            
+
+            <td class="description last"><p>options</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+        <th>Default</th>
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>index</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    0
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>delay</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+                <td class="default">
+                
+                    500
+                
+                </td>
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="helpers_utils.js.html">helpers/utils.js</a>, <a href="helpers_utils.js.html#line22">line 22</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;{data: number}></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="dealCards"><span class="type-signature"></span>dealCards<span class="signature">(dealer, toPlayers, options)</span><span class="type-signature"> &rarr; {Promise.&lt;{data: string}>}</span></h4>
+    
+
+    
+    <p class="summary"><p>Deal cards</p>.</p>
+    
+
+
+
+<div class="description">
+    <p>Deal cards</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>dealer</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="Player.html">Player</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>toPlayers</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="helpers_utils.js.html">helpers/utils.js</a>, <a href="helpers_utils.js.html#line230">line 230</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;{data: string}></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="swapDomElements"><span class="type-signature"></span>swapDomElements<span class="signature">(obj1, obj2)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>obj1</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">HTMLElement</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>obj2</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">HTMLElement</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="helpers_utils.js.html">helpers/utils.js</a>, <a href="helpers_utils.js.html#line72">line 72</a>
     </li></ul></dd>
     
 
@@ -189,6 +1029,163 @@
 
 
         
+            
+
+    
+
+    
+    <h4 class="name" id="wait"><span class="type-signature"></span>wait<span class="signature">(ms)</span><span class="type-signature"> &rarr; {Promise.&lt;unknown>}</span></h4>
+    
+
+    
+    <p class="summary"><p>SetTimeout promise</p>.</p>
+    
+
+
+
+<div class="description">
+    <p>SetTimeout promise</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>ms</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>in ms</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="helpers_utils.js.html">helpers/utils.js</a>, <a href="helpers_utils.js.html#line8">line 8</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;unknown></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
     
 
     
@@ -204,13 +1201,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AiPlayer.html">AiPlayer</a></li><li><a href="Area.html">Area</a></li><li><a href="Card.html">Card</a></li><li><a href="Deck.html">Deck</a></li><li><a href="DeckFactory.html">DeckFactory</a></li><li><a href="DefaultDeck.html">DefaultDeck</a></li><li><a href="DefaultPlayer.html">DefaultPlayer</a></li><li><a href="Game.html">Game</a></li><li><a href="Hand.html">Hand</a></li><li><a href="module.exports.html">exports</a></li><li><a href="Player.html">Player</a></li><li><a href="PlayerFactory.html">PlayerFactory</a></li></ul><h3>Global</h3><ul><li><a href="global.html#createDeckObj">createDeckObj</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AiPlayer.html">AiPlayer</a></li><li><a href="Area.html">Area</a></li><li><a href="Card.html">Card</a></li><li><a href="Deck.html">Deck</a></li><li><a href="DeckFactory.html">DeckFactory</a></li><li><a href="DefaultDeck.html">DefaultDeck</a></li><li><a href="DefaultPlayer.html">DefaultPlayer</a></li><li><a href="Game.html">Game</a></li><li><a href="Hand.html">Hand</a></li><li><a href="MatchingDeck.html">MatchingDeck</a></li><li><a href="Player.html">Player</a></li><li><a href="PlayerFactory.html">PlayerFactory</a></li></ul><h3>Global</h3><ul><li><a href="global.html#animateCardFromOneAreaToAnother">animateCardFromOneAreaToAnother</a></li><li><a href="global.html#cardShuffle">cardShuffle</a></li><li><a href="global.html#dealCards">dealCards</a></li><li><a href="global.html#swapDomElements">swapDomElements</a></li><li><a href="global.html#wait">wait</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Thu May 21 2020 13:50:38 GMT+0100 (British Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Thu May 21 2020 15:46:31 GMT+0100 (British Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -135,6 +135,8 @@
         <th>Type</th>
 
         
+        <th>Attributes</th>
+        
 
         
         <th>Default</th>
@@ -161,6 +163,16 @@
             
             </td>
 
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
             
 
             
@@ -190,6 +202,16 @@
             
             </td>
 
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
             
 
             
@@ -274,7 +296,7 @@
             <td class="type">
             
                 
-<span class="param-type">object.&lt;*></span>
+<span class="param-type">object</span>
 
 
             
@@ -1061,6 +1083,11 @@
 
             <td class="type">
             
+                
+<span class="param-type"><a href="Player.html">Player</a></span>
+
+
+            
             </td>
 
             
@@ -1144,7 +1171,7 @@
     
 
     
-    <h4 class="name" id="createDealer"><span class="type-signature"></span>createDealer<span class="signature">(id, name, options)</span><span class="type-signature"> &rarr; {<a href="DefaultPlayer.html">DefaultPlayer</a>}</span></h4>
+    <h4 class="name" id="createDealer"><span class="type-signature"></span>createDealer<span class="signature">(id, name, options)</span><span class="type-signature"> &rarr; {<a href="AiPlayer.html">AiPlayer</a>}</span></h4>
     
 
     
@@ -1330,7 +1357,7 @@
     </dt>
     <dd>
         
-<span class="param-type"><a href="DefaultPlayer.html">DefaultPlayer</a></span>
+<span class="param-type"><a href="AiPlayer.html">AiPlayer</a></span>
 
 
     </dd>
@@ -1348,7 +1375,7 @@
     
 
     
-    <h4 class="name" id="createDeck"><span class="type-signature"></span>createDeck<span class="signature">(id, name, elementId, options, type, addToGame)</span><span class="type-signature"> &rarr; {<a href="DefaultDeck.html">DefaultDeck</a>}</span></h4>
+    <h4 class="name" id="createDeck"><span class="type-signature"></span>createDeck<span class="signature">(id, name, elementId, options, type, addToGame)</span><span class="type-signature"> &rarr; {<a href="DefaultDeck.html">DefaultDeck</a>|<a href="MatchingDeck.html">MatchingDeck</a>}</span></h4>
     
 
     
@@ -1623,6 +1650,9 @@
     <dd>
         
 <span class="param-type"><a href="DefaultDeck.html">DefaultDeck</a></span>
+|
+
+<span class="param-type"><a href="MatchingDeck.html">MatchingDeck</a></span>
 
 
     </dd>
@@ -1919,6 +1949,14 @@
 
             <td class="type">
             
+                
+<span class="param-type">string</span>
+|
+
+<span class="param-type">number</span>
+
+
+            
             </td>
 
             
@@ -1994,6 +2032,11 @@
             
 
             <td class="type">
+            
+                
+<span class="param-type">object</span>
+
+
             
             </td>
 
@@ -2286,7 +2329,7 @@
     
 
     
-    <h4 class="name" id="findPlayerByName"><span class="type-signature"></span>findPlayerByName<span class="signature">(name)</span><span class="type-signature"> &rarr; {*}</span></h4>
+    <h4 class="name" id="findPlayerByName"><span class="type-signature"></span>findPlayerByName<span class="signature">(name)</span><span class="type-signature"> &rarr; {<a href="Player.html">Player</a>}</span></h4>
     
 
     
@@ -2420,7 +2463,7 @@
     </dt>
     <dd>
         
-<span class="param-type">*</span>
+<span class="param-type"><a href="Player.html">Player</a></span>
 
 
     </dd>
@@ -2448,13 +2491,13 @@
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AiPlayer.html">AiPlayer</a></li><li><a href="Area.html">Area</a></li><li><a href="Card.html">Card</a></li><li><a href="Deck.html">Deck</a></li><li><a href="DeckFactory.html">DeckFactory</a></li><li><a href="DefaultDeck.html">DefaultDeck</a></li><li><a href="DefaultPlayer.html">DefaultPlayer</a></li><li><a href="Game.html">Game</a></li><li><a href="Hand.html">Hand</a></li><li><a href="module.exports.html">exports</a></li><li><a href="Player.html">Player</a></li><li><a href="PlayerFactory.html">PlayerFactory</a></li></ul><h3>Global</h3><ul><li><a href="global.html#createDeckObj">createDeckObj</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AiPlayer.html">AiPlayer</a></li><li><a href="Area.html">Area</a></li><li><a href="Card.html">Card</a></li><li><a href="Deck.html">Deck</a></li><li><a href="DeckFactory.html">DeckFactory</a></li><li><a href="DefaultDeck.html">DefaultDeck</a></li><li><a href="DefaultPlayer.html">DefaultPlayer</a></li><li><a href="Game.html">Game</a></li><li><a href="Hand.html">Hand</a></li><li><a href="MatchingDeck.html">MatchingDeck</a></li><li><a href="Player.html">Player</a></li><li><a href="PlayerFactory.html">PlayerFactory</a></li></ul><h3>Global</h3><ul><li><a href="global.html#animateCardFromOneAreaToAnother">animateCardFromOneAreaToAnother</a></li><li><a href="global.html#cardShuffle">cardShuffle</a></li><li><a href="global.html#dealCards">dealCards</a></li><li><a href="global.html#swapDomElements">swapDomElements</a></li><li><a href="global.html#wait">wait</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Thu May 21 2020 13:50:38 GMT+0100 (British Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Thu May 21 2020 15:46:32 GMT+0100 (British Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

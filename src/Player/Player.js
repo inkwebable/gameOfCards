@@ -1,12 +1,26 @@
 import { Hand } from '../Hand';
 
 /**
- * @class
  * Generate a Player
+ * @class
+ * @property {string | number} id - The name of the person.
+ * @property {string} name - The name of the person.
+ * @property {Hand} hand - The player hand.
+ * @property {boolean} ready - Is the player ready
+ * @property {boolean} turn - Is the players turn
  */
 
 class Player {
 
+  /**
+   *
+   * @param id {string | number}
+   * @param name {string}
+   * @param {object} [options={playing: true, ready: false, turn: false}] - options
+   * @param  {boolean} [options.playing=true] - player is playing
+   * @param  {boolean} [options.ready=false] - player is ready
+   * @param  {boolean} [options.turn=false] - its this players turn
+   */
     constructor(id, name = 'player', options) {
 
       const defaultOptions = {
@@ -24,11 +38,17 @@ class Player {
       });
 
       this.name = name;
-      this.hand = newOptions || [];
-      this.ready = newOptions || false;
-      this.turn = newOptions || false;
+      this.hand = [];
+      this.ready = newOptions;
+      this.turn = newOptions;
     }
 
+  /**
+   * Create a hand for a player
+   * @param id {string | number}
+   * @param options
+   * @returns {Hand}
+   */
     createHand(id, options) {
       this.hand = new Hand(id, options);
 
