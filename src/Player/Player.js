@@ -4,7 +4,8 @@ import { Hand } from '../Hand';
  * @class
  * Generate a Player
  */
-export default class Player {
+
+class Player {
 
     constructor(id, name = 'player', options) {
 
@@ -39,3 +40,5 @@ export default class Player {
       return this.hand;
     }
 }
+
+export default Player;

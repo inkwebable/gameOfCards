@@ -5,4 +5,4 @@ import * as Actions from './helpers/utils';
 
 export { Actions };
 export * from './helpers/utils';
-export { Game as GameOfCards } from './Game';
+export { Game } from './Game';

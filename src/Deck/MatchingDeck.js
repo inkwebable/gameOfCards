@@ -4,7 +4,8 @@ import Card from '../Card/Card';
 /**
  * @class
  */
-export default class MatchingDeck extends Deck {
+
+class MatchingDeck extends Deck {
   constructor({ id, name, elementId, options }) {
     options.cardSuits = {};
     options.cardValues = options.cardValues ? options.cardValues : {};
@@ -66,3 +67,5 @@ export default class MatchingDeck extends Deck {
     }
   }
 }
+
+export default MatchingDeck;

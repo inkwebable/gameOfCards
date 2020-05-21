@@ -1,5 +1,5 @@
 import { Game } from '../../src';
-import { cardShuffle, dealCards } from '../../src/helpers/utils';
+import { cardShuffle, dealCards } from '../../src';
 
 export default (async () => {
 

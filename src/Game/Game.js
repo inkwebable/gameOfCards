@@ -2,19 +2,20 @@ import { DeckFactory } from '../Deck';
 import { PlayerFactory } from '../Player';
 
 /**
- * Generate a game
+ * A game object
  * @class
- * @property {string} name - name of the game
- * @property {object} data - hold custom game properties
- * @property {array} decks - array of decks
- * @property {array} players - array of players
+ * @property {string} name - The name of the person.
+ * @property {object<*>} data - hold custom data
+ * @property {array} decks - hold decks
+ * @property {array} players -hold players
  */
-export default class Game {
+
+class Game {
   /**
    *
    * @param {object} [options={name: 'GameOfCards', data: {}}] - options
    * @param  {string} options.name=GameOfCards - name of the game
-   * @param  {string} options.data - hold custom data
+   * @param  {object} options.data={} - hold custom data
    */
   constructor(options) {
     /**
@@ -27,9 +28,21 @@ export default class Game {
     }
 
     let newOptions = Object.assign({}, defaultOptions, options)
+    /**
+     * @type {string}
+     */
     this.name = newOptions.name;
+    /**
+     * @type {Object}
+     */
     this.data = newOptions.data;
+    /**
+     * @type {Array}
+     */
     this.decks = [];
+    /**
+     * @type {Array}
+     */
     this.players = [];
 
     Object.defineProperties(this, {
@@ -211,3 +224,5 @@ export default class Game {
     }
   }
 }
+
+export default Game;

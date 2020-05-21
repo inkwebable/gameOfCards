@@ -30,10 +30,24 @@
 import { Card } from '../Card';
 
 /**
- * Generate a Hand
+ * A game object
  * @class
+ * @property {string} name - The name of the person.
+ * @property {object&lt;*>} data - hold custom data
+ * @property {array} decks - hold decks
+ * @property {array} players -hold players
  */
-export default class Hand {
+
+class Hand {
+  /**
+   *
+   * @param {object} [options={
+   * cards: [], data: { test: 'test'}},
+   * rules: {}
+   * ] - options
+   * @param  {array} options.cards - array of cards
+   * @param  {object} options.data={test:'test'} - hold custom data
+   */
   constructor(id, options) {
     const defaultOptions = {
       cards: [],
@@ -64,11 +78,25 @@ export default class Hand {
     let newRules = Object.assign({}, defaultOptions.rules, userRules);
     let newData = Object.assign({}, defaultOptions.data, userData);
 
+    /** @type {Array} */
     this.areas = []; // @TODO solitare would need multiple areas with ids
-    this.area = newOptions.area || {}; // @TODO remove - use the method instead to register hand on area
+    /** @type {Object} */
+    this.area =  {};
+    /** @type {Object} */
     this.rules = newRules;
+    /** @type {Object} */
     this.data = newData;
+    /**
+     * user definable fn for when a card is added to the hand
+     * @param card {Card} a card object
+     * @param hand {Hand} a hand object
+     */
     this.handleCardAdded = (card, hand) => {};
+    /**
+     * user definable fn for when a card is removed from the hand
+     * @param card {Card} a card object
+     * @param hand {Hand} a hand object
+     */
     this.handleCardRemoved = (card, hand) => {};
 
     // for proxy
@@ -113,6 +141,13 @@ export default class Hand {
     this.cards = newOptions.cards || [];
   }
 
+  /**
+   * Create an area for a hand
+   * @param id {string}
+   * @param name {string}
+   * @param options {object}
+   * @returns {Object}
+   */
   createArea(id, name, options) {
     this.area = new Area(id, name, options);
 
@@ -124,7 +159,10 @@ export default class Hand {
     return this.area;
   }
 
-  // does not pass by reference, creates new array of cards!
+  /**
+   * Add cards directly to the cards prop - does not pass by reference, creates new array of cards!
+   * @param cards {array&lt;Card>}
+   */
   addCardsToHand(cards) {
     // this.cards = cards.filter(card => card instanceof Card);
     let filteredCards = cards.filter(card => card instanceof Card);
@@ -133,16 +171,34 @@ export default class Hand {
     // this.onCardsReceived();
   };
 
+  /**
+   * Add a card to a hand
+   * @async
+   * @param card {Card}
+   * @returns {Promise&lt;void>}
+   */
   async addCardToHand(card) {
     this.cards.push(card);
     await this.onCardAdded(card);
   };
 
+  /**
+   * Remove card from hand
+   * @async
+   * @param card {Card}
+   * @returns {Promise&lt;void>}
+   */
   async removeCardFromHand(card) {
     this.cards = this.cards.filter(cardObj => cardObj._id !== card._id);
     await this.onCardRemoved(card);
   };
 
+  /**
+   * Internal call when a card is added - calls user definable fn {@link Hand#handleCardAdded}
+   * @async
+   * @param card {Card}
+   * @returns {Promise&lt;{someVal: string}>}
+   */
   async onCardAdded(card) {
     // console.log('Hand.onCardReceived', card)
     card.hand = this;
@@ -151,6 +207,12 @@ export default class Hand {
     return Promise.resolve({ someVal : 'Hand.onCardReceived done'});
   }
 
+  /**
+   * Internal call when a card is removed - calls user definable fn {@link Hand#handleCardRemoved}
+   * @async
+   * @param card
+   * @returns {Promise&lt;{someVal: string}>}
+   */
   async onCardRemoved(card) {
     // console.log('Hand.onCardRemoved', card)
     card.hand = null;
@@ -159,6 +221,9 @@ export default class Hand {
     return Promise.resolve({ someVal : 'Hand.onCardRemoved done'});
   }
 
+  /**
+   * Set all HTMLEvent Listeners on a card
+   */
   setUpCardEvents() {
     console.log('hand setUpCardEvents', this);
     for (let card of this.cards) {
@@ -166,6 +231,12 @@ export default class Hand {
     }
   }
 
+  /**
+   * Set the click fn to be used with the click event listener
+   *
+   * @param fn {function} function to be set
+   * @param activateListener {boolean} activate the listener immediately
+   */
   setCardClickFn(fn, activateListener = true) {
     if (this.cards.length > 0) {
       for (let card of this.cards) {
@@ -176,6 +247,13 @@ export default class Hand {
     }
   }
 
+  /**
+   * Set the onCardFaceUp &amp; onCardFaceDown fns to be used with the transitioned event listener
+   *
+   * @param onCardFaceUp {function}
+   * @param onCardFaceDown {function}
+   * @param activateListener {boolean}
+   */
   setTransitionEvent({ onCardFaceUp , onCardFaceDown }, activateListener = true) {
     if (this.cards.length > 0) {
       for (let card of this.cards) {
@@ -184,6 +262,12 @@ export default class Hand {
     }
   }
 
+  /**
+   * Set the onCardFaceUp function
+   *
+   * @param fn {function}
+   * @param activateListener {boolean}
+   */
   setAfterCardFaceUpFn(fn, activateListener = true) {
     if (this.cards.length > 0) {
       for (let card of this.cards) {
@@ -192,6 +276,12 @@ export default class Hand {
     }
   }
 
+  /**
+   * Set the onCardFaceDown function
+   *
+   * @param fn {function}
+   * @param activateListener {boolean}
+   */
   setAfterCardFaceDownFn(fn, activateListener = true) {
     if (this.cards.length > 0) {
       for (let card of this.cards) {
@@ -218,12 +308,23 @@ export default class Hand {
     return true;
   }
 
+  /**
+   * Get the last card in the hand
+   *
+   * @returns {Card}
+   */
   getLastCard() {
     if(this.cards.length > 0) {
       return this.cards[this.cards.length - 1];
     }
   }
 
+  /**
+   * Find a card by id from the hand
+   *
+   * @param id
+   * @returns {Card}
+   */
   findCardById(id) {
     return this.cards.find(o => o._id === id);
   }
@@ -243,6 +344,8 @@ export default class Hand {
   //   return Promise.resolve({ someVal: 'onCardReceived' });
   // }
 }
+
+export default Hand;
 </code></pre>
         </article>
     </section>
@@ -253,13 +356,13 @@ export default class Hand {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Card.html">Card</a></li><li><a href="DefaultPlayer.html">DefaultPlayer</a></li><li><a href="module.exports.html">exports</a></li></ul><h3>Global</h3><ul><li><a href="global.html#addDeckToDecks">addDeckToDecks</a></li><li><a href="global.html#addDeckToDOM">addDeckToDOM</a></li><li><a href="global.html#addDeckToDom">addDeckToDom</a></li><li><a href="global.html#addPlayerToPlayers">addPlayerToPlayers</a></li><li><a href="global.html#createDealer">createDealer</a></li><li><a href="global.html#createDeck">createDeck</a></li><li><a href="global.html#createDeckObj">createDeckObj</a></li><li><a href="global.html#createPlayer">createPlayer</a></li><li><a href="global.html#createStandardDeck">createStandardDeck</a></li><li><a href="global.html#findCardById">findCardById</a></li><li><a href="global.html#findDeckById">findDeckById</a></li><li><a href="global.html#findPlayerByName">findPlayerByName</a></li><li><a href="global.html#makeDomDeck">makeDomDeck</a></li><li><a href="global.html#newNumber">newNumber</a></li><li><a href="global.html#shuffleCardsObj">shuffleCardsObj</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AiPlayer.html">AiPlayer</a></li><li><a href="Area.html">Area</a></li><li><a href="Card.html">Card</a></li><li><a href="Deck.html">Deck</a></li><li><a href="DeckFactory.html">DeckFactory</a></li><li><a href="DefaultDeck.html">DefaultDeck</a></li><li><a href="DefaultPlayer.html">DefaultPlayer</a></li><li><a href="Game.html">Game</a></li><li><a href="Hand.html">Hand</a></li><li><a href="module.exports.html">exports</a></li><li><a href="Player.html">Player</a></li><li><a href="PlayerFactory.html">PlayerFactory</a></li></ul><h3>Global</h3><ul><li><a href="global.html#createDeckObj">createDeckObj</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Wed May 20 2020 20:11:18 GMT+0100 (British Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.4</a> on Thu May 21 2020 13:50:38 GMT+0100 (British Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -1,7 +1,9 @@
 /**
+ * Area
  * @class
  */
-export default class Area {
+
+class Area {
   constructor(id, name, options) {
     const defaultOptions = {
       name: 'area',
@@ -149,3 +151,5 @@ export default class Area {
   }
 
 }
+
+export default Area;

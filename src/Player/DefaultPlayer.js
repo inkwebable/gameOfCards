@@ -2,7 +2,9 @@ import Player from './Player';
 
 /**
  * A default player
+ * @class
  */
+
 class DefaultPlayer extends Player {
   constructor({ id, name, options }) {
     super(id, name, options);

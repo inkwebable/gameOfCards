@@ -2,10 +2,24 @@ import { Area } from '../Area';
 import { Card } from '../Card';
 
 /**
- * Generate a Hand
+ * A game object
  * @class
+ * @property {string} name - The name of the person.
+ * @property {object<*>} data - hold custom data
+ * @property {array} decks - hold decks
+ * @property {array} players -hold players
  */
-export default class Hand {
+
+class Hand {
+  /**
+   *
+   * @param {object} [options={
+   * cards: [], data: { test: 'test'}},
+   * rules: {}
+   * ] - options
+   * @param  {array} options.cards - array of cards
+   * @param  {object} options.data={test:'test'} - hold custom data
+   */
   constructor(id, options) {
     const defaultOptions = {
       cards: [],
@@ -36,11 +50,25 @@ export default class Hand {
     let newRules = Object.assign({}, defaultOptions.rules, userRules);
     let newData = Object.assign({}, defaultOptions.data, userData);
 
+    /** @type {Array} */
     this.areas = []; // @TODO solitare would need multiple areas with ids
-    this.area = newOptions.area || {}; // @TODO remove - use the method instead to register hand on area
+    /** @type {Object} */
+    this.area =  {};
+    /** @type {Object} */
     this.rules = newRules;
+    /** @type {Object} */
     this.data = newData;
+    /**
+     * user definable fn for when a card is added to the hand
+     * @param card {Card} a card object
+     * @param hand {Hand} a hand object
+     */
     this.handleCardAdded = (card, hand) => {};
+    /**
+     * user definable fn for when a card is removed from the hand
+     * @param card {Card} a card object
+     * @param hand {Hand} a hand object
+     */
     this.handleCardRemoved = (card, hand) => {};
 
     // for proxy
@@ -85,6 +113,13 @@ export default class Hand {
     this.cards = newOptions.cards || [];
   }
 
+  /**
+   * Create an area for a hand
+   * @param id {string}
+   * @param name {string}
+   * @param options {object}
+   * @returns {Object}
+   */
   createArea(id, name, options) {
     this.area = new Area(id, name, options);
 
@@ -96,7 +131,10 @@ export default class Hand {
     return this.area;
   }
 
-  // does not pass by reference, creates new array of cards!
+  /**
+   * Add cards directly to the cards prop - does not pass by reference, creates new array of cards!
+   * @param cards {array<Card>}
+   */
   addCardsToHand(cards) {
     // this.cards = cards.filter(card => card instanceof Card);
     let filteredCards = cards.filter(card => card instanceof Card);
@@ -105,16 +143,34 @@ export default class Hand {
     // this.onCardsReceived();
   };
 
+  /**
+   * Add a card to a hand
+   * @async
+   * @param card {Card}
+   * @returns {Promise<void>}
+   */
   async addCardToHand(card) {
     this.cards.push(card);
     await this.onCardAdded(card);
   };
 
+  /**
+   * Remove card from hand
+   * @async
+   * @param card {Card}
+   * @returns {Promise<void>}
+   */
   async removeCardFromHand(card) {
     this.cards = this.cards.filter(cardObj => cardObj._id !== card._id);
     await this.onCardRemoved(card);
   };
 
+  /**
+   * Internal call when a card is added - calls user definable fn {@link Hand#handleCardAdded}
+   * @async
+   * @param card {Card}
+   * @returns {Promise<{someVal: string}>}
+   */
   async onCardAdded(card) {
     // console.log('Hand.onCardReceived', card)
     card.hand = this;
@@ -123,6 +179,12 @@ export default class Hand {
     return Promise.resolve({ someVal : 'Hand.onCardReceived done'});
   }
 
+  /**
+   * Internal call when a card is removed - calls user definable fn {@link Hand#handleCardRemoved}
+   * @async
+   * @param card
+   * @returns {Promise<{someVal: string}>}
+   */
   async onCardRemoved(card) {
     // console.log('Hand.onCardRemoved', card)
     card.hand = null;
@@ -131,6 +193,9 @@ export default class Hand {
     return Promise.resolve({ someVal : 'Hand.onCardRemoved done'});
   }
 
+  /**
+   * Set all HTMLEvent Listeners on a card
+   */
   setUpCardEvents() {
     console.log('hand setUpCardEvents', this);
     for (let card of this.cards) {
@@ -138,6 +203,12 @@ export default class Hand {
     }
   }
 
+  /**
+   * Set the click fn to be used with the click event listener
+   *
+   * @param fn {function} function to be set
+   * @param activateListener {boolean} activate the listener immediately
+   */
   setCardClickFn(fn, activateListener = true) {
     if (this.cards.length > 0) {
       for (let card of this.cards) {
@@ -148,6 +219,13 @@ export default class Hand {
     }
   }
 
+  /**
+   * Set the onCardFaceUp & onCardFaceDown fns to be used with the transitioned event listener
+   *
+   * @param onCardFaceUp {function}
+   * @param onCardFaceDown {function}
+   * @param activateListener {boolean}
+   */
   setTransitionEvent({ onCardFaceUp , onCardFaceDown }, activateListener = true) {
     if (this.cards.length > 0) {
       for (let card of this.cards) {
@@ -156,6 +234,12 @@ export default class Hand {
     }
   }
 
+  /**
+   * Set the onCardFaceUp function
+   *
+   * @param fn {function}
+   * @param activateListener {boolean}
+   */
   setAfterCardFaceUpFn(fn, activateListener = true) {
     if (this.cards.length > 0) {
       for (let card of this.cards) {
@@ -164,6 +248,12 @@ export default class Hand {
     }
   }
 
+  /**
+   * Set the onCardFaceDown function
+   *
+   * @param fn {function}
+   * @param activateListener {boolean}
+   */
   setAfterCardFaceDownFn(fn, activateListener = true) {
     if (this.cards.length > 0) {
       for (let card of this.cards) {
@@ -190,12 +280,23 @@ export default class Hand {
     return true;
   }
 
+  /**
+   * Get the last card in the hand
+   *
+   * @returns {Card}
+   */
   getLastCard() {
     if(this.cards.length > 0) {
       return this.cards[this.cards.length - 1];
     }
   }
 
+  /**
+   * Find a card by id from the hand
+   *
+   * @param id
+   * @returns {Card}
+   */
   findCardById(id) {
     return this.cards.find(o => o._id === id);
   }
@@ -215,3 +316,5 @@ export default class Hand {
   //   return Promise.resolve({ someVal: 'onCardReceived' });
   // }
 }
+
+export default Hand;

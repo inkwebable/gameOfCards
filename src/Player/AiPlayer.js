@@ -1,9 +1,11 @@
 import Player from './Player';
 
 /**
+ * Ai Player
  * @class
  */
-export default class AiPlayer extends Player {
+
+class AiPlayer extends Player {
   constructor({ id, name, options }) {
     super(id, name, options);
 
@@ -13,3 +15,5 @@ export default class AiPlayer extends Player {
     });
   }
 }
+
+export default AiPlayer;

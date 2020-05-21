@@ -4,7 +4,8 @@ import MatchingDeck from './MatchingDeck';
 /**
  * @class
  */
-export default class DeckFactory {
+
+class DeckFactory {
 
   constructor() {
     this.deckClass = DefaultDeck;
@@ -24,3 +25,5 @@ export default class DeckFactory {
   };
 
 }
+
+export default DeckFactory;

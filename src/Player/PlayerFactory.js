@@ -5,7 +5,8 @@ import AiPlayer from './AiPlayer';
  * Player Factory
  * @class
  */
-export default class PlayerFactory {
+
+class PlayerFactory {
   constructor() {
     this.playerClass = DefaultPlayer;
   }
@@ -23,3 +24,5 @@ export default class PlayerFactory {
   };
 
 }
+
+export default PlayerFactory;

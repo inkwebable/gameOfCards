@@ -4,7 +4,8 @@ import { Card } from '../Card';
  * Generate a deck
  * @class
  */
-export default class Deck {
+
+class Deck {
 
   /**
    *
@@ -237,3 +238,5 @@ export default class Deck {
     console.error('error', e);
   }
 }
+
+export default Deck;

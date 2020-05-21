@@ -1,9 +1,11 @@
 import Deck from './Deck';
 
 /**
+ * Default Deck
  * @class
  */
-export default class DefaultDeck extends Deck {
+
+class DefaultDeck extends Deck {
   constructor({ id, name, elementId, options }) {
     super(id, name, elementId, options);
   }
@@ -60,3 +62,5 @@ export default class DefaultDeck extends Deck {
   //   }
   // }
 }
+
+export default DefaultDeck;
