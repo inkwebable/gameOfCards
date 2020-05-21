@@ -17,6 +17,7 @@ export default (async () => {
   //   numberOfEachCard: 1,
   //   cardSuits: { 'hearts': 'red', 'clubs': 'black', 'diamonds': 'red', 'spades': 'black' },
   //   cardValues: { A: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, J: 11, Q: 12, K: 13 },
+  //   cheat: true
   // });
 
   //create a custom deck
@@ -26,6 +27,7 @@ export default (async () => {
     cardValues: { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6 },
     imagePath: "images/game-of-cards/pear-cards",
     imageExt: 'png',
+    cheat: true
   }, 'matching');
 
   // const arabia = game.createDeck(1, 'matching-pears', 'js-deck', {
@@ -35,7 +37,7 @@ export default (async () => {
   //   // imageNames: ['alif', 'baa', 'taa'],
   //   cardValues: { 'alif': 1, 'baa': 2, 'taa': 3 },
   //   imagePath: "images/game-of-cards/arabic-cards",
-  //   anyCrap: true,
+  //   cheat: true
   // }, 'matching');
 
   game.createDealer('dealer1', 'AI Dealer', {})
@@ -57,7 +59,6 @@ export default (async () => {
       }
     })
     .createArea('hand1', 'area1', {
-      owner: 'player', // @TODO this should be the hand or player
       flexArea: true, // turning this off makes cards position absolute, so must set maxCardsInHorizontal
       stackVertical: false, // override flex area
       maxCardsInHorizontal: 3, // overridden if flexArea

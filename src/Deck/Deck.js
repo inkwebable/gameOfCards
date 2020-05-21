@@ -25,6 +25,7 @@ class Deck {
    * @param  {string} [options.imageExt=jpg] - extension of the card images to use
    * @param  {boolean} [options.useSuits=true] - define whether to use suits from the cardSuits property
    * @param  {boolean} [options.addValues=true] - define whether to set the card values from the cardValues property
+   * @param  {boolean} [options.cheat=true] - define whether to add cheat class to cards
    */
   constructor(id, name = 'standard playing cards', elementId = 'js-deck', options) {
     const defaultOptions = {
@@ -35,11 +36,12 @@ class Deck {
       imagePath: 'images/game-of-cards/default-cards',
       backOfCardSrc: 'back.png',
       frontOfCardSrc: 'front.png',
-      cardSectionClass: 'card-container',
+      cardSectionClass: 'goc-card-container',
       customCardContainerClass: '',
       imageExt: 'jpg',
       useSuits: true,
       addValues: true,
+      cheat: false,
     };
 
     const combinedOptions = Object.assign({}, defaultOptions, options);
@@ -81,6 +83,7 @@ class Deck {
     this.useSuits = combinedOptions.useSuits;
     this.addValues = combinedOptions.addValues;
     this.areas = combinedOptions.areas;
+    this.cheat = combinedOptions.cheat;
 
     this.createDeckObj();
   }
@@ -141,22 +144,17 @@ class Deck {
 
   /**
    * make the html markup for appending to DOM
-   * how could I allow a user change the mark up?
    */
-  makeDomDeck(domCards = this._DOMCards) {
-
-    // push html mark up into array
-    for (let i = 0; i < this.cards.length; i++) {
-      domCards.push(
-        `<section key="${i}" class="${this.cardSectionClass} ${this.customCardContainerClass}" style="transform: translate(0px,0px);">
-                <div class="card" id="${this.cards[i]._id}">
-                <figure class="back"><img src="${this.imagePath}/${this.backOfCardSrc}" alt="back of card"></figure>
-                <figure class="front"><img src="${this.imagePath}/${this.frontOfCardSrc}" alt="front of card"></figure>
-                <p class="cheat">${this.cards[i].name} ${this.cards[i].suit}</p>
+  makeDomDeck() {
+    this._DOMCards = this.cards.map(card => {
+      return `<section class="${this.cardSectionClass} ${this.customCardContainerClass}" style="transform: translate(0px,0px);">
+                <div class="goc-card" id="${card._id}">
+                <figure class="goc-back"><img src="${this.imagePath}/${this.backOfCardSrc}" alt="back of card"></figure>
+                <figure class="goc-front"><img src="${this.imagePath}/${this.frontOfCardSrc}" alt="front of card"></figure>
+                ${this.cheat ? `<p class="goc-cheat">${card.name} ${card.suit}</p>` : ''}
                 </div>
                 </section>`
-      );
-    }
+    });
   }
 
   /**

@@ -2,6 +2,10 @@
 @import 'cards';
 @import 'deck';
 
+.matched {
+  border: 2px dashed darkorange;
+}
+
 #players {
   position: relative;
 

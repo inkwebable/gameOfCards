@@ -215,7 +215,6 @@ class Hand {
    * Set all HTMLEvent Listeners on a card
    */
   setUpCardEvents() {
-    console.log('hand setUpCardEvents', this);
     for (let card of this.cards) {
       card.activateAllEventListeners();
     }

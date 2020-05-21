@@ -116,7 +116,6 @@ class Area {
     this.position.right = playerBox.right - this.siteElementOffsets.right;
     this.position.bottom = playerBox.bottom - this.siteElementOffsets.bottom;
     this.position.left = playerBox.left - this.siteElementOffsets.left;
-    console.log('getAreaPosition',this.elementId, this.position, domArea)
   }
 
   /**

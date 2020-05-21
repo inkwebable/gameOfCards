@@ -185,7 +185,6 @@ class Card {
    * Activate all the html event listeners
    */
   activateAllEventListeners() {
-    console.log('core/Card activateAllEvents', this);
     this.removeAllEventListeners();
 
     this.activateClickEventListener();
@@ -205,7 +204,7 @@ class Card {
    * @returns {Array}
    */
   removeAllEvents() {
-    console.log('core/Card removeAllEvents', this);
+    // console.log('core/Card removeAllEvents', this);
     const removed = [];
 
     for (let event in this.events) {
@@ -260,7 +259,7 @@ class Card {
     this.currentEvent = 'flipCardFaceUp';
 
     if (!this.visible) {
-      this.dom.querySelector('.front img').src = this.image;
+      this.dom.querySelector('.goc-front img').src = this.image;
       this.addDOMClassCard(' flipped');
       this.transitioning = true;
 
@@ -279,7 +278,7 @@ class Card {
     this.currentEvent = 'flipCardFaceDown';
 
     if (this.visible) {
-      this.setDOMClassCard('card');
+      this.setDOMClassCard('goc-card');
       this.transitioning = true;
 
       return true
@@ -294,7 +293,7 @@ class Card {
    * @param evt {HTMLElement}
    */
   _afterTransition(evt) {
-    console.log('aftertran', this, evt)
+    // console.log('aftertran', this, evt)
     this.transitioning = false;
 
     if (this.currentEvent === 'flipCardFaceUp') {
@@ -317,7 +316,7 @@ class Card {
    * @param img {string}
    */
   clearFrontFaceImg(img = this.imageDefault) {
-    this.dom.querySelector('.front img').src = `${img}`;
+    this.dom.querySelector('.goc-front img').src = `${img}`;
   }
 
   isTransitioning() {

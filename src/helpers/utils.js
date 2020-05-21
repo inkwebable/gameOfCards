@@ -32,20 +32,20 @@ export const cardShuffle = async (cards = [], callback = () => {}, options = {})
     let card1 = cardObj1.dom
     let card2 = cardObj2.dom
 
-    card1.className = 'card-container shuffle-left';
+    card1.className = 'goc-card-container shuffle-left';
     // card1.style.zIndex =  (index + 1);
 
     if (card2) {
       // console.log('card2', card2);
-      card2.className = 'card-container shuffle-right';
+      card2.className = 'goc-card-container shuffle-right';
       // card2.style.zIndex = index;
     }
 
     await wait(100);
 
-    card1.className = 'card-container shuffle-right';
+    card1.className = 'goc-card-container shuffle-right';
     if (card2) {
-      card2.className = 'card-container shuffle-left';
+      card2.className = 'goc-card-container shuffle-left';
       swapDomElements(card1, card2);
       let temp = cardObj1;
       cards[index] = cardObj2
@@ -120,12 +120,9 @@ export const animateCardFromOneAreaToAnother = async (fromHand, toHand, card, op
 
   // auto work out the amount of cards a flex box can take
   if (flexArea && !stackVertical) {
-    // @TODO fix bug when there is no width on the dom and dealing area is set to flex
     let width = toHand.area.dom.offsetWidth < cardWidth ? cardWidth : toHand.area.dom.offsetWidth
-    console.log('area.dom.width', toHand.area.dom.offsetWidth, width);
     maxCardsInHorizontal = Math.floor(parseInt(width, 10) / parseInt(cardWidth, 10));
-    console.log(`max in hori ${maxCardsInHorizontal}`, toHand.area.dom.offsetWidth, cardWidth, toHand.cards.length);
-    // if(toHand.area.dom.offsetWidth)
+    // console.log(`max in hori ${maxCardsInHorizontal}`, toHand.area.dom.offsetWidth, cardWidth, toHand.cards.length);
   }
 
   if (stackVertical) {
@@ -188,7 +185,7 @@ export const animateCardFromOneAreaToAnother = async (fromHand, toHand, card, op
   await wait(speed);
 
   // remove class name to prevent any previous card animations
-  card.dom.className = "card-container";
+  card.dom.className = 'goc-card-container';
 
   // remove card from the original area and set it into the toHand area
   toHand.area.dom.appendChild(card.dom);

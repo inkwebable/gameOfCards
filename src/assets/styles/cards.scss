@@ -2,7 +2,7 @@
 $card-background-color:red;
 $card-foreground-color:blue;
 
-.card-container {
+.goc-card-container {
   width: 67px;
   height: 86px;
   perspective: 800px;
@@ -15,20 +15,20 @@ $card-foreground-color:blue;
   border-style: solid;
 }
 
-.card {
+.goc-card {
   width: 100%;
   height: 100%;
   position: absolute;
   transform-style: preserve-3d;
   transition: transform 1s;
 
-  .cheat {
+  .goc-cheat {
     z-index: 999999;
     position: fixed;
   }
 }
 
-.card figure {
+.goc-card figure {
   margin: 0;
   display: block;
   position: absolute;
@@ -37,43 +37,39 @@ $card-foreground-color:blue;
   backface-visibility: hidden;
 }
 
-.card .back {
+.goc-card .goc-back {
   background: $card-background-color;
   //border: 1px solid #000;
   border-radius: 9px;
 }
 
-.card .front {
+.goc-card .goc-front {
   background: $card-foreground-color;
   //border: 1px solid #000;
   border-radius: 9px;
   transform: rotateY(180deg);
 }
 
-.card.flipped {
+.goc-card.flipped {
   transform: rotateY(180deg);
 }
 
-.card.flipped-tilt-left {
+.goc-card.flipped-tilt-left {
   transform: rotateY(-180deg) rotate(11deg) translate(5px, 0px);
 }
 
-.card.flipped-tilt-Right {
+.goc-card.flipped-tilt-Right {
   transform: rotateY(180deg) rotate(-9deg) translate(-5px, 0px);
 }
 
-.card img {
+.goc-card img {
   width: 100%;
   border-radius: 9px;
 }
 
-.matched {
-  border: 2px dashed darkorange;
-}
-
 @media (min-width: 720px) {
 
-  .card-container {
+  .goc-card-container {
     width: 105px;
     height: 135px;
     perspective: 800px;
