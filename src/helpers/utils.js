@@ -12,7 +12,7 @@ export const wait = ms => new Promise((resolve) => setTimeout(resolve, ms));
  *
  * @async
  * @function
- * @param cards {Cards[]}
+ * @param cards {Card[]}
  * @param callback {function}
  * @param {object} [options={index: 0, delay: 500}] - options
  * @param  {number} [options.index=0]
@@ -71,8 +71,8 @@ export const cardShuffle = async (cards = [], callback = () => {}, options = {})
  */
 export const swapDomElements = (obj1, obj2) => {
   // save the location of obj2
-  var parent2 = obj2.parentNode;
-  var next2 = obj2.nextSibling;
+  let parent2 = obj2.parentNode;
+  let next2 = obj2.nextSibling;
   // special case for obj1 is the next sibling of obj2
   if (next2 === obj1) {
     // just put obj1 before obj2

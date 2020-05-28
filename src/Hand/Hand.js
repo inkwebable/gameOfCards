@@ -230,6 +230,8 @@ class Hand {
     if (this.cards.length > 0) {
       for (let card of this.cards) {
         // card.setClickEvent(fn, activateListener);
+        // @TODO determine if this should always be the card
+        // card.setClickEvent(fn, { hand: this, card }, activateListener)
         card.onClick = fn.bind(this, { card });
         card.activateClickEventListener();
       }
@@ -256,11 +258,12 @@ class Hand {
    *
    * @param fn {function}
    * @param activateListener {boolean}
+   * @param props {object}
    */
-  setAfterCardFaceUpFn(fn, activateListener = true) {
+  setAfterCardFaceUpFn(fn, activateListener = true, props) {
     if (this.cards.length > 0) {
       for (let card of this.cards) {
-        card.setTransitionEvent({ onCardFaceUp: fn.bind(this, {card}) }, activateListener);
+        card.setTransitionEvent({ onCardFaceUp: fn.bind(this, {card}) }, props, activateListener);
       }
     }
   }

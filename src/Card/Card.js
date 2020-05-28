@@ -79,6 +79,7 @@ class Card {
     });
     this.onCardFaceDown = newOptions.onCardFaceDown || ((evt) => {
     });
+    this.hand = {};
   }
 
   /**
@@ -127,8 +128,10 @@ class Card {
   /**
    *
    * @param onClick {function}
-   * @param props {*}
+   * @param props {object}
    * @param activateListener {boolean}
+   *
+   * @example card.setClickEvent(handleCardClick, { hand });
    * @returns {onClick}
    */
   setClickEvent(onClick, props, activateListener = true) {
@@ -146,8 +149,10 @@ class Card {
    *
    * @param onCardFaceUp {function}
    * @param onCardFaceDown {function}
-   * @param props {*}
+   * @param props {Object}
    * @param activateListener {boolean}}
+   *
+   * @example card.setTransitionEvent({ onCardFaceUp: afterCardFlipUp, onCardFaceDown: afterCardFlipDown }, { hand });
    */
   setTransitionEvent({ onCardFaceUp, onCardFaceDown }, props, activateListener = true) {
     if (onCardFaceUp) {

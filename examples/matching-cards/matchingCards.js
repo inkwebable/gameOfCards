@@ -269,17 +269,17 @@ export default (async () => {
   }
 
   // add event when card is added to hand (don't use arrow function to gain access to this)
-  // game.findPlayerById('player1').hand.handleCardAdded = (card, hand) => {
-  //   // console.log('thiss', this);
-  //   // card.setClickEvent((data, evt) => {
-  //   //   console.log('card', card, 'hand',hand, 'this', this);
-  //   //   console.log('params',data, evt);
-  //   // }, { hand });
-  //   hand.rules.pairsToMatch = (hand.cards.length / 2) // @TODO see if there is a way to set this by finding out how many cards were dealt to player?
-  //
-  //   card.setClickEvent(handleCardClick, { hand });
-  //   card.setTransitionEvent({ onCardFaceUp: afterCardFlipUp, onCardFaceDown: afterCardFlipDown }, { hand });
-  // };
+  game.findPlayerById('player1').hand.handleCardAdded = (card, hand) => {
+    // console.log('thiss', this);
+    // card.setClickEvent((data, evt) => {
+    //   console.log('card', card, 'hand',hand, 'this', this);
+    //   console.log('params',data, evt);
+    // }, { hand });
+    hand.rules.pairsToMatch = (hand.cards.length / 2) // @TODO see if there is a way to set this by finding out how many cards were dealt to player?
+    // @TODO determine if this should always be the card
+    card.setClickEvent(handleCardClick, { hand });
+    card.setTransitionEvent({ onCardFaceUp: afterCardFlipUp, onCardFaceDown: afterCardFlipDown }, { hand });
+  };
 
   // game.findPlayerById('player1').hand.handleCardAdded = function(card) {
   //   let hand = this;
@@ -331,6 +331,7 @@ export default (async () => {
   // });
 
   // do listeners later
+  // @TODO determine if this should always be the card
   game.findPlayerByName('Thien').hand.setCardClickFn(handleCardClick, false);
   game.findPlayerByName('Thien').hand.setAfterCardFaceUpFn(afterCardFlipUp, false);
   game.findPlayerByName('Thien').hand.setAfterCardFaceDownFn(afterCardFlipDown, false);

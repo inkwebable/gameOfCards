@@ -4,6 +4,7 @@
     <title>Game Of Cards</title>
     <link rel="stylesheet" href="../../dist/styles/main.css" />
     <script src="../../dist/gameOfCards.js"></script>
+<!--    <script type="module" src="matchingCards.js"></script>-->
     <style>
         body {
             background: linear-gradient(to bottom, #7db9e8 0%,#2989d8 50%,#1e5799 100%);
@@ -14,29 +15,293 @@
 </head>
 <body>
 <main>
-    <div id="js-deck" />
+    <div id="js-deck" ></div>
     <div id="players">
         <div id="hand1"></div>
         <div id="hand2"></div>
     </div>
 </main>
 <script>
-  // let game = new gameOfCards.Game()
-  console.log('test', GameOfCards);
+  (async () => {
+    let game = new GameOfCards.Game({
+      name: 'Matching Cards',
+      data: {},
+      decks: [],
+      dealer: {},
+      players: [],
+    });
 
-  let game = new GameOfCards.Game({
-    name: 'Matching Cards',
-  });
+    game.createStandardDeck(1, 'matching-pears', 'js-deck', {
+      imagePath: '../../dist/images/game-of-cards/default-cards'
+    });
 
-  const deck1 = game.createStandardDeck(1, 'matching-pears', 'js-deck', {
-    imagePath: 'images/cards/'
-  });
+    console.log('game', game);
 
-  console.log('game', game);
+    game.createDealer('dealer1', 'AI Dealer', {})
+      .createHand('dealer1')
+      .createArea('js-deck', 'deck', { owner: 'dealer', stackVertical: false });
 
-  // can pass deck ids to each of these methods
-  game.shuffleDeckCards().makeDomMarkUp().addDeckToDom();
-  game.assignCardDomToCardObj();
+    game.createPlayer('player1', 'Thien', {})
+      .createHand('hand1', {
+        data: {
+          clickCount: 0,
+          matchedPairs: 0,
+          matchedIds: [],
+          flipped: [],
+        },
+        rules: {
+          timeToMemorise: 300,
+          allowFlip: true,
+          pairsToMatch: 6
+        }
+      })
+      .createArea('hand1', 'area1', {
+        flexArea: true, // turning this off makes cards position absolute, so must set maxCardsInHorizontal
+        stackVertical: false, // override flex area
+        maxCardsInHorizontal: 3, // overridden if flexArea
+        dealCenterLine: false,
+      })
+      .setObserver();
+
+    game.shuffleDeckCards().makeDomMarkUp().addDeckToDom();
+    game.assignCardDomToCardObj();
+
+    game.dealer.hand.addCardsToHand(game.findDeckById(1).cards);
+
+    let handleCardClick = function onCardClick(data, evt) {
+
+      let hand, card;
+
+      console.log('onCardClick', this, data, evt);
+      if (data.hasOwnProperty('card')) {
+        card = data.card
+        hand = this;
+      } else {
+        card = this;
+        hand = data.hand
+      }
+
+      // should allowflip be on the deck or the game or the hand?
+      if (card.allowFlip === true && !card.transitioning) {
+
+        if (Object.keys(hand.data.flipped).length < 2) {
+
+          if (!hand.data.flipped.hasOwnProperty(card._id)) {
+
+            hand.data.clickCount++;
+            // console.log(hand.data.clickCount);
+
+            if (card.flipCardFaceUp()) {
+              hand.data.flipped[card._id] = card;
+            } else {
+              alert('flipCardFaceUp is false');
+              card.flipCardFaceDown();
+            }
+          } else {
+            // @TODO remove
+            console.log('card already flipped', hand.data.flipped.hasOwnProperty(card._id));
+          }
+        }
+
+      } else {
+        // @TODO remove
+        console.log('card not flippable or is transitioning', card);
+      }
+    }
+
+    let afterCardFlipUp = function onCardFlipUp(data, evt) {
+      console.log('afterCardFlipUp', this, data, evt);
+
+      let card, hand;
+
+      if (data.hasOwnProperty('card')) {
+        card = data.card
+        hand = this;
+      } else {
+        card = this;
+        hand = data.hand
+      }
+
+      if (Object.keys(hand.data.flipped).length >= 2 && hand.allCardsTransitioned()) {
+        // console.log('2 cards in flipped', hand.data.flipped, hand.data.timeToMemorise);
+
+        hand.rules.allowFlip = false;
+
+        setTimeout(() => {
+
+          if (cardsMatch(hand)) {
+
+            // remove events and add matched class name to cards
+            for (let matchedCard in hand.data.flipped) {
+              hand.data.flipped[matchedCard].addDOMClassContainer('matched');
+              hand.data.flipped[matchedCard].clearClickListener();
+              hand.data.flipped[matchedCard].clearTransitionedListener();
+            }
+
+            // update & reset game & deck values
+            hand.data.matchedPairs += 1;
+
+            hand.data.flipped = {};
+            hand.rules.allowFlip = true;
+
+            // check if player won the game @TODO make this = to the length of cards
+            console.log('if won', game);
+            if (hand.data.matchedPairs === hand.rules.pairsToMatch) {
+              playerWon(hand);
+            }
+
+          } else {
+            // flip cards back
+            for (let cardObjId in hand.data.flipped) {
+              console.log('flipped', hand.data.flipped[cardObjId]);
+              hand.data.flipped[cardObjId].flipCardFaceDown();
+            }
+
+            hand.data.flipped = {};
+            hand.rules.allowFlip = true;
+          }
+
+        }, hand.rules.timeToMemorise);
+      }
+
+    }
+
+    let afterCardFlipDown = function onCardFlipDown(data, evt) {
+
+      console.log('afterCardFlipDown', this, data, evt);
+
+      let card, hand;
+
+      if (data.hasOwnProperty('card')) {
+        card = data.card
+        hand = this;
+      } else {
+        card = this;
+        hand = data.hand
+      }
+
+      // @TODO check this
+      console.log('deleting from hand.data.flipped ' + card._id);
+      delete hand.data.flipped[card._id];
+    }
+
+    function cardsMatch(hand) {
+
+      console.log('do cards match', hand.data.flipped, hand.data.matchedIds);
+      // right amount of cards to test against?
+      if (Object.keys(hand.data.flipped).length >= 2) {
+
+        // check if cards are new matches
+        if (hand.data.matchedIds.indexOf(hand.data.flipped[Object.keys(hand.data.flipped)[0]].name) === -1 && hand.data.matchedIds.indexOf(hand.data.flipped[Object.keys(hand.data.flipped)[1]].name) === -1) {
+
+          // do they match?
+          if (hand.data.flipped[Object.keys(hand.data.flipped)[0]].name === hand.data.flipped[Object.keys(hand.data.flipped)[1]].name) {
+
+            // move card ids to winner array or object
+            hand.data.matchedIds.push(hand.data.flipped[Object.keys(hand.data.flipped)[0]]._id);
+            hand.data.matchedIds.push(hand.data.flipped[Object.keys(hand.data.flipped)[1]]._id);
+
+            return true;
+          }
+        }
+        // @TODO check when id of flipped match is equal to the flipped object name ie. 6
+        console.log('no match', game, hand.data.flipped, hand.data.flipped[Object.keys(hand.data.flipped)[0]].name, hand.data.flipped[Object.keys(hand.data.flipped)[1]].name);
+        return false;
+      }
+      alert('not enough cards flipped');
+      return false;
+    }
+
+    function playerWon(hand) {
+      console.log('Called playerWon', game);
+      // let removed = game.findPlayerById('player1').hand.removeCardEvents();
+      // console.log('removed', removed);
+
+      if (hand.data.matchedPairs === hand.rules.pairsToMatch) {
+        let addToBoard = confirm(`You finished the game in ${hand.data.clickCount} clicks, add to score board?`);
+
+        if (addToBoard === true) {
+          let player = prompt('Please enter your name');
+          if (player === '') {
+            player = "Unknown Player";
+          }
+
+          let xhr;
+          if (window.XMLHttpRequest) {
+            xhr = new XMLHttpRequest();
+          } else {
+            xhr = new ActiveXObject("Microsoft.XMLHTTP");
+          }
+
+          let url = "matching-pairs/add-score";
+          let params = `score=${hand.data.clickCount}&name=${player}&pair_amount=${hand.data.matchedPairs}`;
+
+          xhr.open("POST", url, true);
+          xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+          xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+              console.log("success");
+              // setTimeout(function () {
+              //     location.reload();
+              // }, 1000);
+
+            } else {
+              console.log("failed to send request");
+              // options
+              // give player button to try again
+              // add score to storage and allow player to try again ( player can cheat )
+              // store score in session
+              // send score, name etc to a google docs sheet?
+            }
+          };
+          xhr.send(params);
+
+        } else {
+          // @TODO reset game?
+        }
+      }
+    }
+
+    // add event when card is added to hand (don't use arrow function to gain access to this)
+    game.findPlayerById('player1').hand.handleCardAdded = (card, hand) => {
+      // console.log('thiss', this);
+      // card.setClickEvent((data, evt) => {
+      //   console.log('card', card, 'hand',hand, 'this', this);
+      //   console.log('params',data, evt);
+      // }, { hand });
+      hand.rules.pairsToMatch = (hand.cards.length / 2) // @TODO see if there is a way to set this by finding out how many cards were dealt to player?
+      // @TODO determine if this should always be the card
+      card.setClickEvent(handleCardClick, { hand });
+      card.setTransitionEvent({ onCardFaceUp: afterCardFlipUp, onCardFaceDown: afterCardFlipDown }, { hand });
+    };
+
+    await GameOfCards.Actions.cardShuffle(game.dealer.hand.cards, () => {
+      console.log('cardShuffle cb')
+    }).then((data) => {
+      console.log('cardShuffle then', data);
+    });
+
+    let totalCards = game.dealer.hand.cards.length;
+
+    let dealerTest = await GameOfCards.dealCards(
+      game.dealer,
+      [
+        game.findPlayerByName('Thien'),
+        // game.findPlayerByName('Thien2')
+      ], {
+        totalCardsToDeal: totalCards, // ignored if perPlayer is set
+        // perPlayer: 2, // overrides totalCardsToDeal
+        sequential: true, // deal sequentially
+        inlineFlex: true
+      });
+
+    game.findPlayerByName('Thien').hand.setCardClickFn(handleCardClick, false);
+    game.findPlayerByName('Thien').hand.setAfterCardFaceUpFn(afterCardFlipUp, false);
+    game.findPlayerByName('Thien').hand.setAfterCardFaceDownFn(afterCardFlipDown, false);
+    game.findPlayerByName('Thien').hand.setUpCardEvents();
+  })()
 </script>
 </body>
 </html>
