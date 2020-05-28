@@ -4,5 +4,7 @@
 # local resources
 node_modules
 
+docs
+
 src/assets/images/game-of-cards/pear-cards
 dist/images/game-of-cards/pear-cards
