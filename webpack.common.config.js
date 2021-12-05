@@ -1,17 +1,17 @@
 const path = require('path');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   entry: {
     gameOfCards: './src/index.js',
   },
   plugins: [
-    new CopyPlugin([
-      { from: './src/assets/images/game-of-cards/', to: path.resolve(__dirname, 'dist/images/game-of-cards/'), },
-      // { from: 'other', to: 'public' },
-    ]),
+    new CopyPlugin({
+      patterns: [
+        { from: './src/assets/images/game-of-cards/', to: path.resolve(__dirname, 'dist/images/game-of-cards/'), },
+        // { from: 'other', to: 'public' },
+      ]
+    }),
   ],
   output: {
     filename: '[name].bundle.js',
@@ -61,14 +61,6 @@ module.exports = {
       }
     ]
   },
-  // externals: {
-  //   lodash: {
-  //     commonjs: 'lodash',
-  //     commonjs2: 'lodash',
-  //     amd: 'lodash',
-  //     root: '_',
-  //   },
-  // },
   // optimization: {
   //   moduleIds: 'hashed', // keep vendor id (keep size the same)
   //   runtimeChunk: "single",

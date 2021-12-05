@@ -1,15 +1,15 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const common = require('./webpack.common.config');
 
 
 module.exports = merge(common, {
   mode: 'development',
   devtool: 'inline-source-map',
-  devServer: {
-    contentBase: './dist',
-  },
+  // devServer: {
+  //   static: './dist',
+  // },
   entry: {
     gameOfCards: './src/index.js',
     matchingCards: './examples/matching-cards/matchingCards.js',
@@ -27,16 +27,15 @@ module.exports = merge(common, {
     }),
   ],
   optimization: {
-    moduleIds: 'hashed', // keep vendor id (keep size the same)
-    runtimeChunk: "single",
-    splitChunks: {
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all',
-        },
-      },
-    },
+    moduleIds: 'deterministic', // keep vendor id (keep size the same)
+    // splitChunks: {
+    //   cacheGroups: {
+    //     vendor: {
+    //       test: /[\\/]node_modules[\\/]/,
+    //       name: 'vendors',
+    //       chunks: 'all',
+    //     },
+    //   },
+    // },
   },
 });

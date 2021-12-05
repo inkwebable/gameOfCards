@@ -1,5 +1,5 @@
 const path = require('path');
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const common = require('./webpack.common.config');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -10,18 +10,11 @@ module.exports = merge(common, {
   output: {
     filename: 'gameOfCards.js',
     path: path.resolve(__dirname, 'dist'),
-    library: 'GameOfCards',
-    // libraryTarget: 'umd'
+    library: {
+      type: "umd",
+      name: 'GameOfCards'
+    },
   },
-  plugins: [
-    new CleanWebpackPlugin({
-      cleanStaleWebpackAssets: false
-    }),
-    new MiniCssExtractPlugin({
-      filename: 'styles/[name].css',
-      // publicPath: path.resolve(__dirname, 'dist/styles/')
-    })
-  ],
   module: {
     rules: [
       {
@@ -43,4 +36,16 @@ module.exports = merge(common, {
       },
     ]
   },
+  // target: "node", // Node.js via require
+  target: ["web", "es5"], // combining targets
+  stats: "verbose", // summarized information
+  plugins: [
+    new CleanWebpackPlugin({
+      cleanStaleWebpackAssets: false
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'styles/[name].css',
+      // publicPath: path.resolve(__dirname, 'dist/styles/')
+    })
+  ],
 });

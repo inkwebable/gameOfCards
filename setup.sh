@@ -2,7 +2,7 @@
 const path = require('path');
 const fs = require('fs-extra')
 
-const sourceDir = path.resolve(__dirname, 'dist/images/game-of-cards');
+let sourceDir = path.resolve(__dirname, 'dist/images/game-of-cards');
 let destinationDir = `${process.env.INIT_CWD}\\images\\game-of-cards`;
 const destinationAssetsDir = `${process.env.INIT_CWD}\\assets`;
 const destinationPublicDir = `${process.env.INIT_CWD}\\public`;
@@ -18,6 +18,10 @@ if (fs.existsSync(destinationPublicDir)) {
   if (!fs.existsSync(destinationDir)){
     fs.mkdirSync(destinationDir, { recursive: true });
   }
+}
+
+if (!fs.existsSync(sourceDir)){
+  sourceDir = path.resolve(__dirname, 'src/assets/images/game-of-cards');
 }
 
 fs.copySync(sourceDir, destinationDir);

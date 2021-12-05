@@ -6,5 +6,7 @@ node_modules
 
 docs
 
+images
+
 src/assets/images/game-of-cards/pear-cards
 dist/images/game-of-cards/pear-cards
