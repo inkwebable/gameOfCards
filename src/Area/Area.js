@@ -35,15 +35,15 @@ class Area {
       // maxRowsForHorizontal: 0,
       flexArea: true,
       dealCenterLine: false,
-    }
+    };
 
     const newOptions = Object.assign({}, defaultOptions, options);
     Object.defineProperties(this, {
-      '_id': {
+      _id: {
         value: id,
         writable: false,
       },
-      'elementId': {
+      elementId: {
         value: elementId,
         writable: false,
       },
@@ -61,7 +61,7 @@ class Area {
       top: 72,
       right: 0,
       bottom: 0,
-      left: 0
+      left: 0,
     };
     this.cards = [];
     this.rules = {
@@ -87,8 +87,10 @@ class Area {
      * User definable fn for when a card is removed if events were setup on the area
      * @param e
      */
-    this.handleCardRemoved = (e) => {console.log('dom removed from area',e)};
-    this.events = {}
+    this.handleCardRemoved = (e) => {
+      console.log('dom removed from area', e);
+    };
+    this.events = {};
     this.stackVertical = newOptions.stackVertical;
     // this.maxCardsInVertical = newOptions.maxCardsInVertical || 12;
     // this.maxColumnsForVertical = newOptions.maxColumnsForVertical || 7;
@@ -107,7 +109,6 @@ class Area {
    * Find area position in the dom
    */
   getAreaPosition() {
-
     let domArea = document.getElementById(this.elementId);
     this.dom = domArea;
     let playerBox = domArea.getBoundingClientRect();
@@ -132,26 +133,27 @@ class Area {
     // Callback function to execute when mutations are observed
     const callback = (mutationsList, observer) => {
       // Use traditional 'for loops' for IE 11
-      for(let mutation of mutationsList) {
+      for (let mutation of mutationsList) {
         // console.log(mutation);
         if (mutation.type === 'childList') {
-          if(mutation.addedNodes.length > 0) {
+          if (mutation.addedNodes.length > 0) {
             // console.log('A child node has been added.', mutation.addedNodes);
             mutation.addedNodes.forEach(async (item) => {
               // console.log('childNode', item)
               await this.onCardReceived(item);
             });
           }
-          if(mutation.removedNodes.length > 0) {
+          if (mutation.removedNodes.length > 0) {
             // console.log('A child node has been removed.');
-            mutation.removedNodes.forEach(async item => {
+            mutation.removedNodes.forEach(async (item) => {
               // console.log('childNode', item)
               await this.onCardRemoved(item);
             });
           }
-        }
-        else if (mutation.type === 'attributes') {
-          console.log('The ' + mutation.attributeName + ' attribute was modified.');
+        } else if (mutation.type === 'attributes') {
+          console.log(
+            'The ' + mutation.attributeName + ' attribute was modified.'
+          );
         }
       }
     };
@@ -173,11 +175,11 @@ class Area {
    * @param card
    * @returns {Promise<{someVal: string}>}
    */
-  async onCardReceived (card) {
+  async onCardReceived(card) {
     // console.log('Area.onCardReceived', card)
     await this.handleCardReceived(card);
 
-    return Promise.resolve({ someVal : 'onCardReceived done'});
+    return Promise.resolve({ someVal: 'onCardReceived done' });
   }
 
   /**
@@ -190,9 +192,8 @@ class Area {
     // console.log('Area.onCardRemoved', card)
     await this.handleCardRemoved(card);
 
-    return Promise.resolve({ someVal : 'onCardRemoved done'});
+    return Promise.resolve({ someVal: 'onCardRemoved done' });
   }
-
 }
 
 export default Area;

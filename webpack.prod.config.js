@@ -7,6 +7,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 module.exports = merge(common, {
   mode: 'production',
   entry: './src/index.js',
+  // devtool: 'source-map',
   output: {
     filename: 'gameOfCards.js',
     path: path.resolve(__dirname, 'dist'),
@@ -18,34 +19,39 @@ module.exports = merge(common, {
   module: {
     rules: [
       {
-        test: /\.css$/,
+        test: /\.(sa|sc|c)ss$/,
         use: [
-          // 'style-loader',
-          { loader: MiniCssExtractPlugin.loader },
-          { loader: 'css-loader' },
-          { loader: 'sass-loader' },
+          MiniCssExtractPlugin.loader, 'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true
+            }
+          }
         ],
-      },
-      {
-        test: /\.scss$/, use: [
-          // { loader: 'style-loader' },
-          { loader: MiniCssExtractPlugin.loader },
-          { loader: 'css-loader' },
-          { loader: 'sass-loader' },
-        ]
+        // options: {
+          // publicPath: "/public/path/to/",
+          // publicPath: path.resolve(__dirname, 'dist/styles/')
+        // },
       },
     ]
   },
   // target: "node", // Node.js via require
   target: ["web", "es5"], // combining targets
-  stats: "verbose", // summarized information
+  // stats: "verbose", // summarized information
   plugins: [
     new CleanWebpackPlugin({
-      cleanStaleWebpackAssets: false
+      cleanStaleWebpackAssets: true
     }),
     new MiniCssExtractPlugin({
-      filename: 'styles/[name].css',
+      filename: 'styles/[name].[contenthash].css',
+      chunkFilename: '[id].css'
+      // linkType: "text/css",
       // publicPath: path.resolve(__dirname, 'dist/styles/')
-    })
+    }),
+    // new ForkTsCheckerWebpackPlugin(),
+    // new CopyPlugin({
+    //   patterns: [{ from: 'src/assets', to: 'assets' }]
+    // })
   ],
 });

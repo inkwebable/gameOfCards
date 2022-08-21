@@ -27,7 +27,7 @@ class Hand {
   constructor(id, options) {
     const defaultOptions = {
       data: {
-        test: 'test'
+        test: 'test',
       },
       rules: {
         test: '',
@@ -36,15 +36,15 @@ class Hand {
         cardsCanBeRemoved: true,
         cardsCanBeSelected: true,
         allowFlip: true,
-      }
-    }
+      },
+    };
 
     let newOptions = Object.assign({}, defaultOptions, options);
     let userRules = newOptions.rules;
     let userData = newOptions.data;
 
     Object.defineProperties(this, {
-      '_id': {
+      _id: {
         value: id,
         writable: false,
       },
@@ -58,7 +58,7 @@ class Hand {
     /** @type {Area[]} */
     this.areas = []; //
     /** @type {Area} */
-    this.area =  {};
+    this.area = {};
     /** @type {Object} */
     this.rules = newRules;
     /** @type {Object} */
@@ -126,11 +126,16 @@ class Hand {
    * @returns {Object}
    */
   createArea(elementId, name, options) {
-    const area = new Area(`${this.player._id}-${this._id}-area-${this.areas.length}`, elementId, name, options);
+    const area = new Area(
+      `${this.player._id}-${this._id}-area-${this.areas.length}`,
+      elementId,
+      name,
+      options
+    );
 
     Object.defineProperty(this.area, 'hand', {
       value: this,
-      writable: false
+      writable: false,
     });
 
     this.addAreaToAreas(area);
@@ -155,11 +160,11 @@ class Hand {
    */
   addCardsToHand(cards) {
     // this.cards = cards.filter(card => card instanceof Card);
-    let filteredCards = cards.filter(card => card instanceof Card);
+    let filteredCards = cards.filter((card) => card instanceof Card);
     // this.cards = new Proxy(filteredCards, this.arrayHandler);
     this.cards = filteredCards;
     // this.onCardsReceived();
-  };
+  }
 
   /**
    * Add a card to a hand
@@ -170,7 +175,7 @@ class Hand {
   async addCardToHand(card) {
     this.cards.push(card);
     await this.onCardAdded(card);
-  };
+  }
 
   /**
    * Remove card from hand
@@ -179,9 +184,9 @@ class Hand {
    * @returns {Promise<void>}
    */
   async removeCardFromHand(card) {
-    this.cards = this.cards.filter(cardObj => cardObj._id !== card._id);
+    this.cards = this.cards.filter((cardObj) => cardObj._id !== card._id);
     await this.onCardRemoved(card);
-  };
+  }
 
   /**
    * Internal call when a card is added - calls user definable fn {@link Hand#handleCardAdded}
@@ -194,7 +199,7 @@ class Hand {
     card.hand = this;
     await this.handleCardAdded(card, this);
 
-    return Promise.resolve({ someVal : 'Hand.onCardReceived done'});
+    return Promise.resolve({ someVal: 'Hand.onCardReceived done' });
   }
 
   /**
@@ -208,7 +213,7 @@ class Hand {
     card.hand = null;
     await this.handleCardRemoved(card, this);
 
-    return Promise.resolve({ someVal : 'Hand.onCardRemoved done'});
+    return Promise.resolve({ someVal: 'Hand.onCardRemoved done' });
   }
 
   /**
@@ -245,10 +250,19 @@ class Hand {
    * @param onCardFaceDown {function}
    * @param activateListener {boolean}
    */
-  setTransitionEvent({ onCardFaceUp , onCardFaceDown }, activateListener = true) {
+  setTransitionEvent(
+    { onCardFaceUp, onCardFaceDown },
+    activateListener = true
+  ) {
     if (this.cards.length > 0) {
       for (let card of this.cards) {
-        card.setTransitionEvent({ onCardFaceUp: onCardFaceUp.bind(this, { card }), onCardFaceDown: onCardFaceDown.bind(this, { card }) }, activateListener);
+        card.setTransitionEvent(
+          {
+            onCardFaceUp: onCardFaceUp.bind(this, { card }),
+            onCardFaceDown: onCardFaceDown.bind(this, { card }),
+          },
+          activateListener
+        );
       }
     }
   }
@@ -263,7 +277,11 @@ class Hand {
   setAfterCardFaceUpFn(fn, activateListener = true, props) {
     if (this.cards.length > 0) {
       for (let card of this.cards) {
-        card.setTransitionEvent({ onCardFaceUp: fn.bind(this, {card}) }, props, activateListener);
+        card.setTransitionEvent(
+          { onCardFaceUp: fn.bind(this, { card }) },
+          props,
+          activateListener
+        );
       }
     }
   }
@@ -277,7 +295,10 @@ class Hand {
   setAfterCardFaceDownFn(fn, activateListener = true) {
     if (this.cards.length > 0) {
       for (let card of this.cards) {
-        card.setTransitionEvent({ onCardFaceDown: fn.bind(this, {card}) }, activateListener);
+        card.setTransitionEvent(
+          { onCardFaceDown: fn.bind(this, { card }) },
+          activateListener
+        );
       }
     }
   }
@@ -306,7 +327,7 @@ class Hand {
    * @returns {Card}
    */
   getLastCard() {
-    if(this.cards.length > 0) {
+    if (this.cards.length > 0) {
       return this.cards[this.cards.length - 1];
     }
   }
@@ -318,7 +339,7 @@ class Hand {
    * @returns {Card}
    */
   findCardById(id) {
-    return this.cards.find(o => o._id === id);
+    return this.cards.find((o) => o._id === id);
   }
 
   // for proxy

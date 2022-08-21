@@ -28,28 +28,23 @@ class Card {
       faceDown: true,
       currentEvent: null,
       events: {
-        click: () => {
-        },
-        transitionend: () => {
-        },
+        click: () => {},
+        transitionend: () => {},
       },
       /**
        *
        * @param evt {HTMLElement}
        */
-      onClick: (evt) => {
-      },
-      onCardFaceUp: () => {
-      },
-      onCardFaceDown: () => {
-      },
+      onClick: (evt) => {},
+      onCardFaceUp: () => {},
+      onCardFaceDown: () => {},
     };
 
     let newOptions = Object.assign({}, defaultOptions, options);
     // console.log('create card', newOptions.events);
 
     Object.defineProperties(this, {
-      '_id': {
+      _id: {
         value: newOptions.id || undefined,
         writable: false,
       },
@@ -73,12 +68,9 @@ class Card {
     this.faceDown = newOptions.faceDown || true;
     this.currentEvent = newOptions.currentEvent || null;
     this.events = newOptions.events || {};
-    this.onClick = newOptions.onClick || ((evt) => {
-    });
-    this.onCardFaceUp = newOptions.onCardFaceUp || ((evt) => {
-    });
-    this.onCardFaceDown = newOptions.onCardFaceDown || ((evt) => {
-    });
+    this.onClick = newOptions.onClick || ((evt) => {});
+    this.onCardFaceUp = newOptions.onCardFaceUp || ((evt) => {});
+    this.onCardFaceDown = newOptions.onCardFaceDown || ((evt) => {});
     this.hand = {};
   }
 
@@ -154,7 +146,11 @@ class Card {
    *
    * @example card.setTransitionEvent({ onCardFaceUp: afterCardFlipUp, onCardFaceDown: afterCardFlipDown }, { hand });
    */
-  setTransitionEvent({ onCardFaceUp, onCardFaceDown }, props, activateListener = true) {
+  setTransitionEvent(
+    { onCardFaceUp, onCardFaceDown },
+    props,
+    activateListener = true
+  ) {
     if (onCardFaceUp) {
       this.onCardFaceUp = onCardFaceUp.bind(this, props);
     }
@@ -215,8 +211,7 @@ class Card {
     for (let event in this.events) {
       if (this.clearEvent(event)) {
         removed.push(`${event} removed`);
-        this.events[event] = () => {
-        };
+        this.events[event] = () => {};
       } else {
         console.error(`${event}event not removed from card ${this._id}`);
       }
@@ -233,7 +228,7 @@ class Card {
     if ({}.hasOwnProperty.call(this.events, event)) {
       this.dom.removeEventListener(event, this.events[event]);
 
-      return true
+      return true;
     }
 
     return false;
@@ -286,7 +281,7 @@ class Card {
       this.setDOMClassCard('goc-card');
       this.transitioning = true;
 
-      return true
+      return true;
     }
 
     return false;

@@ -6,7 +6,6 @@ import { Card } from '../Card';
  */
 
 class Deck {
-
   /**
    *
    * @param id {string}
@@ -27,11 +26,35 @@ class Deck {
    * @param  {boolean} [options.addValues=true] - define whether to set the card values from the cardValues property
    * @param  {boolean} [options.cheat=true] - define whether to add cheat class to cards
    */
-  constructor(id, name = 'standard playing cards', elementId = 'js-deck', options) {
+  constructor(
+    id,
+    name = 'standard playing cards',
+    elementId = 'js-deck',
+    options
+  ) {
     const defaultOptions = {
       numberOfEachCard: 1,
-      cardSuits: { 'hearts': 'red', 'clubs': 'black', 'diamonds': 'red', 'spades': 'black' },
-      cardValues: { A: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9, 10: 10, J: 11, Q: 12, K: 13 },
+      cardSuits: {
+        hearts: 'red',
+        clubs: 'black',
+        diamonds: 'red',
+        spades: 'black',
+      },
+      cardValues: {
+        A: 1,
+        2: 2,
+        3: 3,
+        4: 4,
+        5: 5,
+        6: 6,
+        7: 7,
+        8: 8,
+        9: 9,
+        10: 10,
+        J: 11,
+        Q: 12,
+        K: 13,
+      },
       imageNames: [],
       imagePath: 'images/game-of-cards/default-cards',
       backOfCardSrc: 'back.png',
@@ -42,25 +65,28 @@ class Deck {
       useSuits: true,
       addValues: true,
       cheat: false,
+      cardValuesArePaths: false,
+      cardValuesAreBase: false,
+      backOfCardBaseSrc: null,
     };
 
     const combinedOptions = Object.assign({}, defaultOptions, options);
 
     Object.defineProperties(this, {
-      '_id': {
+      _id: {
         value: id,
         writable: false,
       },
     });
     Object.defineProperties(this, {
-      'name': {
+      name: {
         value: name,
         writable: false,
       },
     });
 
     Object.defineProperties(this, {
-      'elementId': {
+      elementId: {
         value: elementId,
         writable: false,
       },
@@ -84,6 +110,9 @@ class Deck {
     this.addValues = combinedOptions.addValues;
     this.areas = combinedOptions.areas;
     this.cheat = combinedOptions.cheat;
+    this.cardValuesArePaths = combinedOptions.cardValuesArePaths;
+    this.cardValuesAreBase = combinedOptions.cardValuesAreBase;
+    this.backOfCardBaseSrc = combinedOptions.backOfCardBaseSrc;
 
     this.createDeckObj();
   }
@@ -95,7 +124,6 @@ class Deck {
    * @returns {*}
    */
   newNumber(ids) {
-
     // get random num
     let randId = `_${Math.floor(Math.random() * 10000000)}`;
 
@@ -105,7 +133,7 @@ class Deck {
       ids.push(randId);
       return randId;
     } else {
-      return this.newNumber(ids)
+      return this.newNumber(ids);
     }
   }
 
@@ -115,45 +143,74 @@ class Deck {
    *
    */
   createDeckObj() {
+    // can't do this without nodejs
+    // if(this.getNamesFromPath) {
+    //   console.log('get img names from this dir', this.imagePath);
+    //   try {
+    //   var files = fs.readdirSync(this.imagePath);
+    //     console.log('files', files)
+    //   } catch(err) {
+    //     console.log('err', err)
+    //   }
+    //
+    // }
+
     for (const suit in this.cardSuits) {
       for (const name in this.cardValues) {
-
         let count = 0;
 
         while (count < this.numberOfEachCard) {
           let randId = this.newNumber(this._ids);
+          let cardName = `${name}${suit}`;
+
+          cardName =
+            this.cardValuesArePaths || this.cardValuesAreBase
+              ? name
+              : `${name}${suit}`;
 
           let card = new Card({
             name,
             value: this.addValues ? this.cardValues[name] : 0,
             suit: this.useSuits ? suit : '',
-            image: `${this.imagePath}/${name}${suit}.${this.imageExt}`,
+            image: this.cardValuesAreBase
+              ? cardName
+              : `${this.imagePath}/${cardName}.${this.imageExt}`,
             imageDefault: `${this.imagePath}/${this.frontOfCardSrc}`,
             cardColor: this.cardSuits[suit],
-            id: randId.toString()
+            id: randId.toString(),
           });
           this.cards.push(card);
 
           count++;
         }
-
       }
     }
-
   }
 
   /**
    * make the html markup for appending to DOM
    */
   makeDomDeck() {
-    this._DOMCards = this.cards.map(card => {
-      return `<section class="${this.cardSectionClass} ${this.customCardContainerClass}" style="transform: translate(0px,0px);">
+    const backOfCard = this.backOfCardBaseSrc
+      ? this.backOfCardBaseSrc
+      : `${this.imagePath}/${this.backOfCardSrc}`;
+
+    this._DOMCards = this.cards.map((card) => {
+      return `<section class="${this.cardSectionClass} ${
+        this.customCardContainerClass
+      }" style="transform: translate(0px,0px);">
                 <div class="goc-card" id="${card._id}">
-                <figure class="goc-back"><img src="${this.imagePath}/${this.backOfCardSrc}" alt="back of card"></figure>
-                <figure class="goc-front"><img src="${this.imagePath}/${this.frontOfCardSrc}" alt="front of card"></figure>
-                ${this.cheat ? `<p class="goc-cheat">${card.name} ${card.suit}</p>` : ''}
+                <figure class="goc-back"><img src="${backOfCard}" alt="back of card"></figure>
+                <figure class="goc-front"><img src="${this.imagePath}/${
+        this.frontOfCardSrc
+      }" alt="front of card"></figure>
+                ${
+                  this.cheat
+                    ? `<p class="goc-cheat">${card.name} ${card.suit}</p>`
+                    : ''
+                }
                 </div>
-                </section>`
+                </section>`;
     });
   }
 
@@ -168,7 +225,8 @@ class Deck {
   }
 
   assignCardDomToCardObj(cards = this.cards) {
-    let cardNode, realDOM = [];
+    let cardNode,
+      realDOM = [];
 
     for (let card of cards) {
       cardNode = document.getElementById(card._id);
@@ -190,11 +248,12 @@ class Deck {
     // do the fisher yates shuffle
     // let array = this.cards;
 
-    let currentIndex = array.length, temporaryValue, randomIndex;
+    let currentIndex = array.length,
+      temporaryValue,
+      randomIndex;
 
     // While there remain elements to shuffle...
     while (0 !== currentIndex) {
-
       // Pick a remaining element...
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex -= 1;
@@ -214,7 +273,7 @@ class Deck {
    * @param id {string}
    */
   findCardById(id) {
-    return this.cards.find(o => o._id === id);
+    return this.cards.find((o) => o._id === id);
   }
 
   // propHasThisManyCards(prop, amount) {

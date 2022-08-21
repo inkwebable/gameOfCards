@@ -24,10 +24,10 @@ class Game {
      */
     const defaultOptions = {
       name: 'GameOfCards',
-      data: {}
-    }
+      data: {},
+    };
 
-    let newOptions = Object.assign({}, defaultOptions, options)
+    let newOptions = Object.assign({}, defaultOptions, options);
     /**
      * @type {string}
      */
@@ -46,11 +46,11 @@ class Game {
     this.players = [];
 
     Object.defineProperties(this, {
-      'deckFactory': {
+      deckFactory: {
         value: new DeckFactory(),
         writable: false,
       },
-      'playerFactory': {
+      playerFactory: {
         value: new PlayerFactory(),
         writable: false,
       },
@@ -67,7 +67,13 @@ class Game {
    * @returns {DefaultDeck}
    */
   createStandardDeck(id, name, elementId, options, addToGame = true) {
-    const deck = this.deckFactory.createDeck('default', { id, name, elementId, options });
+    const deck = this.deckFactory.createDeck('default', {
+      id,
+      name,
+      elementId,
+      options,
+    });
+    console.log('createStandardDeck -deck', deck);
     if (addToGame) {
       this.addDeckToDecks(deck);
     }
@@ -84,8 +90,13 @@ class Game {
    * @param addToGame {boolean} - add the deck to the game deck property
    * @returns {DefaultDeck | MatchingDeck}
    */
-  createDeck(id, name, elementId, options, type= 'default', addToGame = true) {
-    const deck = this.deckFactory.createDeck(type, { id, name, elementId, options });
+  createDeck(id, name, elementId, options, type = 'default', addToGame = true) {
+    const deck = this.deckFactory.createDeck(type, {
+      id,
+      name,
+      elementId,
+      options,
+    });
     if (addToGame) {
       this.addDeckToDecks(deck);
     }
@@ -112,7 +123,11 @@ class Game {
    * @returns {DefaultPlayer}
    */
   createPlayer(id, name, options, addToGame = true) {
-    const player = this.playerFactory.createPlayer('default', { id, name, options });
+    const player = this.playerFactory.createPlayer('default', {
+      id,
+      name,
+      options,
+    });
     if (addToGame) {
       this.addPlayerToPlayers(player);
     }
@@ -128,17 +143,23 @@ class Game {
    */
   createDealer(id, name = 'dealer', options) {
     const defaultOptions = {
-      dealer: true, ready: false, playing: false,
-    }
+      dealer: true,
+      ready: false,
+      playing: false,
+    };
     let newOptions = Object.assign({}, defaultOptions, options);
-    const player = this.playerFactory.createPlayer('ai', { id, name, options: newOptions });
+    const player = this.playerFactory.createPlayer('ai', {
+      id,
+      name,
+      options: newOptions,
+    });
 
     if (newOptions.playing) {
-      this.addPlayerToPlayers(player)
+      this.addPlayerToPlayers(player);
     }
 
     this.dealer = player;
-    return player
+    return player;
   }
 
   /**
@@ -156,7 +177,7 @@ class Game {
    */
   findPlayerByName(name) {
     if (this.players.length > 0) {
-      return this.players.find(player => player.name === name);
+      return this.players.find((player) => player.name === name);
     }
   }
 
@@ -201,11 +222,11 @@ class Game {
    * @returns {*}
    */
   findDeckById(id) {
-    return this.decks.find(deck => deck._id === id);
+    return this.decks.find((deck) => deck._id === id);
   }
 
   findPlayerById(id) {
-    return this.players.find(player => player._id === id);
+    return this.players.find((player) => player._id === id);
   }
 
   // dealer doesn't have card by reference, so card returned is not from the dealer

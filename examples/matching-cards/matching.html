@@ -1,10 +1,11 @@
 <!doctype html>
 <html>
 <head>
-    <title>Game Of Cards</title>
+    <title>Game Of Cards - Matching Pairs</title>
     <link rel="stylesheet" href="../../dist/styles/main.css" />
     <script src="../../dist/gameOfCards.js"></script>
 <!--    <script type="module" src="matchingCards.js"></script>-->
+<!--    <script type="module" src="gameOfCards.bundle.js"></script>-->
     <style>
         body {
             background: linear-gradient(to bottom, #7db9e8 0%,#2989d8 50%,#1e5799 100%);
@@ -22,6 +23,7 @@
     </div>
 </main>
 <script>
+    console.log('LOADED MATCHING.HTML');
   (async () => {
     let game = new GameOfCards.Game({
       name: 'Matching Cards',
@@ -35,7 +37,7 @@
       imagePath: '../../dist/images/game-of-cards/default-cards'
     });
 
-    console.log('game', game);
+    console.log('matching.html game', game);
 
     game.createDealer('dealer1', 'AI Dealer', {})
       .createHand('dealer1')

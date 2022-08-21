@@ -3,12 +3,16 @@ const path = require('path');
 const { merge } = require('webpack-merge');
 const common = require('./webpack.common.config');
 
-
 module.exports = merge(common, {
   mode: 'development',
   devtool: 'inline-source-map',
   // devServer: {
-  //   static: './dist',
+  //   hot: true,
+  //   port: 3000,
+  //   historyApiFallback: {
+  //     index: 'index.html'
+  //   }
+  // static: './dist',
   // },
   entry: {
     gameOfCards: './src/index.js',
@@ -22,7 +26,7 @@ module.exports = merge(common, {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./index.html",
+      template: './examples/index.html',
       // inject: 'head'
     }),
   ],
@@ -37,5 +41,11 @@ module.exports = merge(common, {
     //     },
     //   },
     // },
+  },
+  devServer: {
+    hot: true,
+    client: {
+      overlay: false,
+    },
   },
 });

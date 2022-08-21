@@ -11,7 +11,6 @@ import { Hand } from '../Hand';
  */
 
 class Player {
-
   /**
    *
    * @param id {string | number}
@@ -21,27 +20,26 @@ class Player {
    * @param  {boolean} [options.ready=false] - player is ready
    * @param  {boolean} [options.turn=false] - its this players turn
    */
-    constructor(id, name = 'player', options) {
+  constructor(id, name = 'player', options) {
+    const defaultOptions = {
+      playing: true,
+      ready: false,
+      turn: false,
+    };
 
-      const defaultOptions = {
-        playing: true,
-        ready: false,
-        turn: false,
-      }
+    let newOptions = Object.assign({}, defaultOptions, options);
+    Object.defineProperties(this, {
+      _id: {
+        value: id,
+        writable: false,
+      },
+    });
 
-      let newOptions = Object.assign({}, defaultOptions, options);
-      Object.defineProperties(this, {
-        '_id': {
-          value: id,
-          writable: false,
-        },
-      });
-
-      this.name = name;
-      this.hand = [];
-      this.ready = newOptions;
-      this.turn = newOptions;
-    }
+    this.name = name;
+    this.hand = [];
+    this.ready = newOptions;
+    this.turn = newOptions;
+  }
 
   /**
    * Create a hand for a player
@@ -49,16 +47,16 @@ class Player {
    * @param options
    * @returns {Hand}
    */
-    createHand(id, options) {
-      this.hand = new Hand(id, options);
+  createHand(id, options) {
+    this.hand = new Hand(id, options);
 
-      Object.defineProperty(this.hand, 'player', {
-        value: this,
-        writable: false
-      });
+    Object.defineProperty(this.hand, 'player', {
+      value: this,
+      writable: false,
+    });
 
-      return this.hand;
-    }
+    return this.hand;
+  }
 }
 
 export default Player;

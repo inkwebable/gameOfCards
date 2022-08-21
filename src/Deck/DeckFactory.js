@@ -6,7 +6,6 @@ import MatchingDeck from './MatchingDeck';
  */
 
 class DeckFactory {
-
   constructor() {
     this.deckClass = DefaultDeck;
   }
@@ -22,8 +21,7 @@ class DeckFactory {
     }
 
     return new this.deckClass(props);
-  };
-
+  }
 }
 
 export default DeckFactory;

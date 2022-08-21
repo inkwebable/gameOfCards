@@ -11,7 +11,7 @@ class AiPlayer extends Player {
 
     Object.defineProperty(this, 'dealer', {
       value: options.dealer,
-      writable: false
+      writable: false,
     });
   }
 }

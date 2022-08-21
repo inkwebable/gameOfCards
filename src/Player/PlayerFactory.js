@@ -1,5 +1,5 @@
-import DefaultPlayer from "./DefaultPlayer";
 import AiPlayer from './AiPlayer';
+import DefaultPlayer from './DefaultPlayer';
 
 /**
  * Player Factory
@@ -14,15 +14,14 @@ class PlayerFactory {
   createPlayer(type, props) {
     switch (type) {
       case 'ai':
-        this.playerClass = AiPlayer
+        this.playerClass = AiPlayer;
         break;
       default:
         this.playerClass = DefaultPlayer;
     }
 
     return new this.playerClass(props);
-  };
-
+  }
 }
 
 export default PlayerFactory;
